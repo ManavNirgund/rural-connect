@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Sheet } from "@mui/joy";
+import React from "react";
 import {
   Box,
   Container,
@@ -9,16 +8,24 @@ import {
   Button,
 } from "@mui/material";
 import { useFormik } from "formik";
-import logo from "../../../assets/images/png/logo-no-background.png";
+import logo from "../../../assets/images/logo/png/logo-no-background.png";
+import { Link, useNavigate, useNavigation } from "react-router-dom";
 
 const Register = () => {
+
+  const nav = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       uname: "",
-      country: "",
       city: "",
+      country: "",
       userid: "",
       pwd: "",
+    },
+    onSubmit: (values) => {
+      console.log("Register: ", values);
+      nav("/")
     },
   });
 
@@ -29,9 +36,9 @@ const Register = () => {
         marginBottom: "3rem",
         marginTop: "3rem",
         height: "70%",
+        width: "30%",
         backgroundColor: "#ececec",
-        // borderRadius: "10px",
-        boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)",
+        boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.75)",
       }}
     >
       <Box
@@ -40,7 +47,6 @@ const Register = () => {
         className="mt-5 p-5 pt-5"
         onSubmit={formik.handleSubmit}
       >
-        {/* <div style={{marginBottom: "5rem"}}></div> */}
         <img src={logo} height="250vh" style={{ marginTop: "2rem" }} />
         <Typography
           variant="h4"
@@ -108,17 +114,49 @@ const Register = () => {
               variant="outlined"
               id="pwd"
               name="pwd"
-              label="Pasword"
-              type="text"
+              label="Password"
+              type="password"
               value={formik.values.pwd}
               onChange={formik.handleChange}
             />
           </Grid>
-          <Grid item display="flex">
-            <Button variant="contained" sx={{
+          <Grid item xs={12} sm={4} />
+          <Grid item xs={12} sm={4} display="flex">
+            <Button
+              variant="contained"
+              type="submit"
+              fullWidth
+              sx={{
+                display: "flex",
+                alignSelf: "center",
+                marginBottom: "1rem",
+              }}
+            >
+              Register
+            </Button>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sx={{
               display: "flex",
-              alignSelf: "center"
-            }}> Register </Button>
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Typography>Don't have an account?</Typography>
+            <Button
+              variant="link"
+              component={Link}
+              to={"/"}
+              sx={{
+                fontWeight: "bolder",
+                textDecoration: "none",
+                color: "blue",
+              }}
+            >
+              Login
+            </Button>
           </Grid>
         </Grid>
       </Box>
