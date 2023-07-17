@@ -10,22 +10,32 @@ import {
 import { useFormik } from "formik";
 import logo from "../../../assets/images/logo/png/logo-no-background.png";
 import { Link, useNavigate, useNavigation } from "react-router-dom";
+import axios from "axios";
 
 const Register = () => {
-
   const nav = useNavigate();
 
   const formik = useFormik({
     initialValues: {
-      uname: "",
-      city: "",
-      country: "",
       userid: "",
+      uname: "",
       pwd: "",
+      country: "",
+      city: "",
+      role: "user",
+      weather: "",
     },
     onSubmit: (values) => {
-      console.log("Register: ", values);
-      nav("/")
+      console.log("Before register: ", values);
+      axios
+        .post("http://localhost:8080/register", values)
+        .then((res) => {
+          console.log("Register: ", res.data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      nav("/");
     },
   });
 
@@ -36,7 +46,7 @@ const Register = () => {
         marginBottom: "3rem",
         marginTop: "3rem",
         height: "70%",
-        width: "30%",
+        width: "455.75px",
         backgroundColor: "#ececec",
         boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.75)",
       }}
@@ -47,7 +57,7 @@ const Register = () => {
         className="mt-5 p-5 pt-5"
         onSubmit={formik.handleSubmit}
       >
-        <img src={logo} height="250vh" style={{ marginTop: "2rem" }} />
+        <img src={logo} width="400vw" style={{ marginTop: "2rem" }} />
         <Typography
           variant="h4"
           marginTop="3rem"
@@ -81,7 +91,7 @@ const Register = () => {
               variant="outlined"
               id="userid"
               name="userid"
-              label="Email"
+              label="User ID"
               value={formik.values.userid}
               onChange={formik.handleChange}
             />
@@ -117,6 +127,18 @@ const Register = () => {
               label="Password"
               type="password"
               value={formik.values.pwd}
+              onChange={formik.handleChange}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              variant="outlined"
+              id="weather"
+              name="weather"
+              label="Weather"
+              type="text"
+              value={formik.values.weather}
               onChange={formik.handleChange}
             />
           </Grid>
