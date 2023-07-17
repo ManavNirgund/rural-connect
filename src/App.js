@@ -3,6 +3,7 @@ import "./App.css";
 import Register from "./components/Auhtentication/Register/Register";
 import Login from "./components/Auhtentication/Login/Login";
 import { Routes, Route } from "react-router-dom";
+import Dashboard from "./components/Users/Dashboard";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Login />}></Route>
         <Route path="register" element={<Register />}></Route>
+        <Route path="users" element={<Dashboard />}></Route>
       </Routes>
     </div>
   );
