@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   Box,
   Container,
@@ -12,24 +12,24 @@ import logo from "../../../assets/images/logo/png/logo-no-background.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import axios from "axios";
+import useRequireAuth from "../../utilities/useRequireAuth";
 
 const Login = () => {
+  const { isAuthenticated, login, logout } = useRequireAuth();
 
   const nav = useNavigate();
   const [name, setName] = useState();
 
   const getUsers = () => {
-  
-    axios.get("http://localhost:8080/users")
-    .then((res) => {
+    axios.get("http://localhost:8080/users").then((res) => {
       console.log("userid: ", res.data);
-      if(res.data.userid == "admin") {
-        nav("/allusers")
+      if (res.data.userid == "admin") {
+        nav("/allusers");
       } else {
-        console.log("Nit an admin")
+        console.log("Nit an admin");
       }
-    })
-  }
+    });
+  };
 
   const formik = useFormik({
     initialValues: { userid: "", pwd: "" },
@@ -44,17 +44,22 @@ const Login = () => {
         .post("http://localhost:8080/login", formData)
         .then((res) => {
           console.log("Successfully logged in: ", res.data);
-          setName(res.data);
-          // getUsers();
-          if(values.userid =="admin"){
-            nav("/allusers")
-          }
-          else{
-            console.log("Not an admin")
+          if (res.data == "Validation successful") {
+            login();
+            if (values.userid == "admin") {
+              nav("/allusers");
+            } else {
+              console.log("Not an admin");
+              // Change to redirect
+              alert(res.data);
+              formik.resetForm();
+            }
           }
         })
         .catch((err) => {
           console.error(err);
+          alert(err.response.data);
+          formik.resetForm();
         });
     },
   });
