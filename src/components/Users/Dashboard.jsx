@@ -10,7 +10,7 @@ import {
 import axios from "axios";
 
 const Dashboard = () => {
-  const [userData, setUserData] = useState();
+  const [userData, setUserData] = useState([]);
 
   useEffect(() => {
     axios

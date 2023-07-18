@@ -23,7 +23,7 @@ const Register = () => {
       country: "",
       city: "",
       role: "user",
-      weather: "",
+      weather: "sunny",
     },
     onSubmit: (values) => {
       console.log("Before register: ", values);
@@ -31,11 +31,11 @@ const Register = () => {
         .post("http://localhost:8080/register", values)
         .then((res) => {
           console.log("Register: ", res.data);
+          nav("/");
         })
         .catch((err) => {
           console.error(err);
         });
-      nav("/");
     },
   });
 
@@ -127,18 +127,6 @@ const Register = () => {
               label="Password"
               type="password"
               value={formik.values.pwd}
-              onChange={formik.handleChange}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              variant="outlined"
-              id="weather"
-              name="weather"
-              label="Weather"
-              type="text"
-              value={formik.values.weather}
               onChange={formik.handleChange}
             />
           </Grid>
