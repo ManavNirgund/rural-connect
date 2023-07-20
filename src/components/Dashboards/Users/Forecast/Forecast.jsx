@@ -1,3 +1,4 @@
+import { Tab } from "@mui/base";
 import {
   Box,
   Button,
@@ -16,14 +17,20 @@ import { useFormik } from "formik";
 import React, { useState } from "react";
 
 const Forecast = () => {
-  const [forecastData, setForecastData] = useState(null);
   const [isForecasrSelected, setIsForecastSelected] = useState(false);
+  const [isWeatherNowSelected, setWeatherNowSelected] = useState(false);
+  const [isWeatherWeeklySelected, setIsWeatherWeeklySelected] = useState(false);
+  
+  const [forecastData, setForecastData] = useState(null);
+  const [weatherNowData, setWeatherNowData] = useState(null);
 
-  const formik = useFormik({
-    initialValues: {
-      city: "",
-      country: "",
-    },
+  const initialValues = {
+    city: "",
+    country: ""
+  }
+
+  const forecastFormik = useFormik({
+    initialValues: initialValues,
     onSubmit: (values) => {
       axios
         .get(`http://localhost:8080/forecast`, {
@@ -38,9 +45,29 @@ const Forecast = () => {
         })
         .catch((err) => {
           console.log(err);
+          alert(err.res);
         });
     },
   });
+
+  const weatherNowFormik = useFormik({
+    initialValues: initialValues,
+    onSubmit: (values) => {
+      axios.get(`http://localhost:8080/api/now/${values.country}/${values.city}`, {
+        params: {
+          country: values.country,
+          city: values.city
+        }
+      })
+      .then((res) => {
+        console.log(res.data);
+        setWeatherNowData(res.data)
+      })
+      .catch((err) => {
+        alert(`${err.name}: ${err.message}`)
+      })
+    }
+  })
 
   const tableStyle = {
     minWidth: "650px",
@@ -69,7 +96,6 @@ const Forecast = () => {
         <Button
           variant={isForecasrSelected === true ? "contained" : "outlined"}
           onClick={() => {
-            // handleButtonClick(1);
             setIsForecastSelected(true);
           }}
           sx={{
@@ -88,6 +114,27 @@ const Forecast = () => {
         >
           Forecast
         </Button>
+        <Button
+          variant={isWeatherNowSelected === true ? "contained" : "outlined"}
+          onClick={() => {
+            setWeatherNowSelected(true);
+          }}
+          sx={{
+            border: "2px solid #870040",
+            marginTop: "0.5rem",
+            marginBottom: "0.5rem",
+            marginRight: "8px",
+            color: "black",
+            fontSize: "1rem",
+            backgroundColor:
+              isWeatherNowSelected === true ? "antiquewhite" : "inherit",
+            "&:hover": {
+              border: "none",
+            },
+          }}
+        >
+          Weather Now
+        </Button>
       </div>
       {isForecasrSelected && (
         <Container
@@ -105,7 +152,7 @@ const Forecast = () => {
             component="form"
             noValidate
             className="mt-5 p-5 pt-5"
-            onSubmit={formik.handleSubmit}
+            onSubmit={forecastFormik.handleSubmit}
           >
             <Typography variant="h5" sx={{ color: "GrayText" }} align="center">
               Weather of the world
@@ -127,8 +174,8 @@ const Forecast = () => {
                   id="city"
                   name="city"
                   label="City"
-                  value={formik.values.city}
-                  onChange={formik.handleChange}
+                  value={forecastFormik.values.city}
+                  onChange={forecastFormik.handleChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -138,8 +185,8 @@ const Forecast = () => {
                   id="country"
                   name="country"
                   label="Country"
-                  value={formik.values.country}
-                  onChange={formik.handleChange}
+                  value={forecastFormik.values.country}
+                  onChange={forecastFormik.handleChange}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -162,6 +209,93 @@ const Forecast = () => {
                   fullWidth
                   color="error"
                   onClick={() => setIsForecastSelected(false)}
+                  sx={{
+                    display: "flex",
+                    alignSelf: "center",
+                    marginBottom: "1rem",
+                  }}
+                >
+                  Close
+                </Button>
+              </Grid>
+            </Grid>
+          </Box>
+        </Container>
+      )}
+
+      {isWeatherNowSelected && (
+        <Container
+          maxWidth="sm"
+          sx={{
+            marginBottom: "3rem",
+            marginTop: "3rem",
+            height: "70%",
+            width: "455.75px",
+            backgroundColor: "#ececec",
+            boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.75)",
+          }}
+        >
+          <Box
+            component="form"
+            noValidate
+            className="mt-5 p-5 pt-5"
+            onSubmit={weatherNowFormik.handleSubmit}
+          >
+            <Typography variant="h5" sx={{ color: "GrayText" }} align="center">
+              Weather of the world
+            </Typography>
+            <Grid
+              container
+              spacing={2}
+              className="mt-4"
+              display="flex"
+              alignItems="center"
+              sx={{
+                marginTop: "1rem",
+              }}
+            >
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  variant="outlined"
+                  id="city"
+                  name="city"
+                  label="City"
+                  value={weatherNowFormik.values.city}
+                  onChange={weatherNowFormik.handleChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  variant="outlined"
+                  id="country"
+                  name="country"
+                  label="Country"
+                  value={weatherNowFormik.values.country}
+                  onChange={weatherNowFormik.handleChange}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Button
+                  variant="contained"
+                  type="submit"
+                  fullWidth
+                  sx={{
+                    display: "flex",
+                    alignSelf: "center",
+                    marginBottom: "1rem",
+                  }}
+                >
+                  Get Data
+                </Button>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Button
+                  variant="outlined"
+                  fullWidth
+                  color="error"
+                  onClick={() => setIsWeatherWeeklySelected(false)}
                   sx={{
                     display: "flex",
                     alignSelf: "center",
@@ -205,6 +339,28 @@ const Forecast = () => {
           </Table>
         </div>
       )}
+
+    {weatherNowData && (
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>City</TableCell>
+            <TableCell>Temperature</TableCell>
+            <TableCell>Climate</TableCell>
+            <TableCell>Date</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          <TableRow>
+            <TableCell>{weatherNowData.name}</TableCell>
+            <TableCell>{weatherNowData.celsiusTemperature}</TableCell>
+            <TableCell>{weatherNowData.description} <img src={`http://openweathermap.org/img/w/${weatherNowData.weatherIcon}.png`}/> </TableCell>
+            <TableCell>{weatherNowData.date}</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    )}
+
     </Container>
   );
 };
