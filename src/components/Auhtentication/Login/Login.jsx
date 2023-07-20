@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Box,
   Container,
@@ -12,24 +11,13 @@ import logo from "../../../assets/images/logo/png/logo-no-background.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import axios from "axios";
-import useRequireAuth from "../../utilities/useRequireAuth";
 
 const Login = () => {
-  const { isAuthenticated, login, logout } = useRequireAuth();
-
   const nav = useNavigate();
-  const [name, setName] = useState();
 
-  const getUsers = () => {
-    axios.get("http://localhost:8080/users").then((res) => {
-      console.log("userid: ", res.data);
-      if (res.data.userid == "admin") {
-        nav("/allusers");
-      } else {
-        console.log("Nit an admin");
-      }
-    });
-  };
+  const isAuthenticated = localStorage.getItem("isAuthenticated");
+  // const location = useLocation();
+  // const redirectPath = location.state?.path || "/";
 
   const formik = useFormik({
     initialValues: { userid: "", pwd: "" },
@@ -44,21 +32,21 @@ const Login = () => {
         .post("http://localhost:8080/login", formData)
         .then((res) => {
           console.log("Successfully logged in: ", res.data);
-          if (res.data == "Validation successful") {
-            login();
-            if (values.userid == "admin") {
-              nav("/allusers");
-            } else {
-              console.log("Not an admin");
-              // Change to redirect
-              alert(res.data);
-              formik.resetForm();
-            }
+          localStorage.setItem("isAuthenticated", true);
+          console.log(`Logged in:  ${isAuthenticated}`);
+          if (values.userid == "admin") {
+            nav("/admin");
+          } else {
+            console.log("Not an admin");
+            alert(res.data);
+            formik.resetForm();
           }
         })
         .catch((err) => {
           console.error(err);
           alert(err.response.data);
+          localStorage.setItem("isAuthenticated", false);
+          console.log(`Not Logged in:  ${isAuthenticated}`);
           formik.resetForm();
         });
     },

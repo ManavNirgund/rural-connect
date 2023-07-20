@@ -1,15 +1,12 @@
-import logo from "./logo.svg";
 import "./App.css";
 import Register from "./components/Auhtentication/Register/Register";
 import Login from "./components/Auhtentication/Login/Login";
-import { useNavigate, Routes, Route } from "react-router-dom";
-import Dashboard from "./components/Users/Dashboard";
+import { Routes, Route } from "react-router-dom";
+import AdminDashboard from "./components/Dashboards/Admin/AdminDashboard";
 import Header from "./components/Header/Header";
-import useRequireAuth from "./components/utilities/useRequireAuth";
-import Private from "./components/Auhtentication/Login/PrivateRoute";
+import Private from "./components/Auhtentication/Login/Private";
 
 function App() {
-  const { isAuthenticated, isAdmin } = useRequireAuth();
 
   return (
     <div className="App">
@@ -19,12 +16,13 @@ function App() {
         <Route exact path="/" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
         <Route
-          path="/allusers"
+          path="/admin"
           element={
             <Private>
-              <Dashboard />
+              <AdminDashboard />
             </Private>
           }
+
         ></Route>
       </Routes>
     </div>
