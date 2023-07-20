@@ -51,7 +51,6 @@ const Dashboard = () => {
         .then((res) => {
           console.log(res.data);
           setWeatherData(res.data);
-          // weatherTable.current.scrollIntoView({ behavior: "smooth", block: "end" })
         })
         .catch((err) => {
           console.log(err);
