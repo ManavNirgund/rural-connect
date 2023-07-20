@@ -59,8 +59,10 @@ const NavBar = () => {
               </MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>
-              <MDBNavbarLink href="/forecast" className="nav-link" style={{ color: "black" }}>
-                Weather
+              <MDBNavbarLink className="nav-link" style={{ color: "black" }}>
+                <Link to="/forecast" style={{ color: "black" }}>
+                  Weather
+                </Link>
               </MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>
