@@ -35,9 +35,11 @@ const Login = () => {
           localStorage.setItem("isAuthenticated", true);
           console.log(`Logged in:  ${isAuthenticated}`);
           if (values.userid == "admin") {
+            localStorage.setItem("isAdmin", true);
             nav("/admin");
           } else {
             console.log("Not an admin");
+            localStorage.setItem("isAdmin", false)
             alert(res.data);
             formik.resetForm();
           }
