@@ -40,8 +40,7 @@ const Login = () => {
           } else {
             console.log("Not an admin");
             localStorage.setItem("isAdmin", false)
-            alert(res.data);
-            formik.resetForm();
+            nav("forecast");
           }
         })
         .catch((err) => {

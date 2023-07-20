@@ -6,9 +6,9 @@ import AdminDashboard from "./components/Dashboards/Admin/AdminDashboard";
 import Header from "./components/Header/Header";
 import Private from "./components/Auhtentication/Login/Private";
 import Forecast from "./components/Forecast/Forecast";
+import RequireAuth from "./components/Auhtentication/Login/RequireAuth";
 
 function App() {
-
   return (
     <div className="App">
       <Header />
@@ -24,7 +24,15 @@ function App() {
             </Private>
           }
         ></Route>
-        <Route path="/forecast" element={<Forecast />}></Route>
+        <Route
+          path="/forecast"
+          element={
+            <RequireAuth>
+              {" "}
+              <Forecast />{" "}
+            </RequireAuth>
+          }
+        ></Route>
       </Routes>
     </div>
   );
