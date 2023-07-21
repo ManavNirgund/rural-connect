@@ -7,6 +7,8 @@ import Header from "./components/Header/Header";
 import Private from "./components/Auhtentication/Login/Private";
 import Forecast from "./components/Dashboards/Users/Forecast/Forecast";
 import RequireAuth from "./components/Auhtentication/Login/RequireAuth";
+import LandingPage from "./components/LandingPage/LandingPage";
+import WeatherAppFooter from "./components/Footer/Footer";
 
 function App() {
   return (
@@ -14,7 +16,8 @@ function App() {
       <Header />
 
       <Routes>
-        <Route exact path="/" element={<Login />}></Route>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
         <Route
           path="/admin"
@@ -34,6 +37,8 @@ function App() {
           }
         ></Route>
       </Routes>
+
+      <WeatherAppFooter />
     </div>
   );
 }

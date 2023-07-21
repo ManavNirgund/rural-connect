@@ -16,7 +16,7 @@ function useRequireAuth() {
   //   setUserID("");
   //   setPassword("");
     setIsAuthenticated(false);
-    nav("/");
+    nav("/login");
   };
 
   return {

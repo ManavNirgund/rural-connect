@@ -83,7 +83,7 @@ const NavBar = () => {
                       console.log(`logged out: ${isAuthenticated}`);
                     }}
                   >
-                    <Link to="/">Logout</Link>
+                    <Link to="/login">Logout</Link>
                   </MDBBtn>
                 </MDBNavbarItem>
               )}
@@ -96,7 +96,7 @@ const NavBar = () => {
                     className="me-4"
                     style={{ boxShadow: "none" }}
                   >
-                    <Link to="/">Login</Link>
+                    <Link to="/login">Login</Link>
                   </MDBBtn>
                 </MDBNavbarItem>
 

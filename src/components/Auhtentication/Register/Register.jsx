@@ -31,7 +31,7 @@ const Register = () => {
         .post("http://localhost:8080/register", values)
         .then((res) => {
           console.log("Register: ", res.data);
-          nav("/");
+          nav("/login");
         })
         .catch((err) => {
           console.error(err);
@@ -158,7 +158,7 @@ const Register = () => {
             <Button
               variant="link"
               component={Link}
-              to={"/"}
+              to={"/login"}
               sx={{
                 fontWeight: "bolder",
                 textDecoration: "none",

@@ -39,7 +39,7 @@ const Login = () => {
             nav("/admin");
           } else {
             console.log("Not an admin");
-            localStorage.setItem("isAdmin", false)
+            localStorage.setItem("isAdmin", false);
             nav("forecast");
           }
         })
@@ -60,7 +60,8 @@ const Login = () => {
         marginBottom: "3rem",
         marginTop: "3rem",
         height: "70%",
-        width: "30%",
+        maxWidth: "30%",
+        minWidth: "35vw",
         backgroundColor: "#ececec",
         boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.75)",
       }}
@@ -68,10 +69,24 @@ const Login = () => {
       <Box
         component="form"
         noValidate
-        className="mt-5 p-5 pt-5"
+        className="mt-3 p-5 pt-5"
         onSubmit={formik.handleSubmit}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "#ececec",
+        }}
       >
-        <img src={logo} height="250vh" style={{ marginTop: "2rem" }} />
+        <img
+          src={logo}
+          style={{
+            marginTop: "2rem",
+            maxWidth: "60vh"
+          }}
+        />
+
         <Typography
           variant="h4"
           marginTop="3rem"
