@@ -42,13 +42,15 @@ const NavBar = () => {
   return (
     <MDBNavbar expand="lg" light style={{ backgroundColor: "#75B59E" }}>
       <MDBContainer fluid>
-        <MDBNavbarBrand href="#">
-          <img
-            src={ruralconnect}
-            alt="Site Logo"
-            width="100vw"
-            style={{ marginBottom: "-0.5rem" }}
-          />
+        <MDBNavbarBrand href="/">
+          <Link to="/">
+            <img
+              src={ruralconnect}
+              alt="Site Logo"
+              width="100vw"
+              style={{ marginBottom: "-0.5rem" }}
+            />
+          </Link>
         </MDBNavbarBrand>
         <MDBNavbarToggler onClick={toggleNav} />
         <MDBCollapse navbar show={showNav}>

@@ -1,9 +1,7 @@
 import React from "react";
 import { Box, Grid, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import { socials } from "../../Assets/data/enums"; // Replace with your socials data
-// import Footer from "../Footer/Footer"; // If you have a Footer component, include it here
-import { appName, usefulLinks } from "../../Assets/data/enums"; // Replace with your app name and useful links data
+import { appName, socials, services } from "../../assets/data/enums";
 
 const WeatherAppFooter = () => {
   return (
@@ -15,7 +13,7 @@ const WeatherAppFooter = () => {
         color: "white",
         py: 3,
         textAlign: "center",
-        backgroundColor: "rgb(135, 0, 64)",
+        backgroundColor: "#75B59E",
       }}
       id="about"
     >
@@ -23,38 +21,36 @@ const WeatherAppFooter = () => {
         <Grid item xs={12} sm={4}>
           <Typography
             variant="h6"
-            color="white"
+            color="#333366"
             sx={{
               marginBottom: "10px",
+              fontWeight: 'bold'
             }}
           >
-            About {appName}
+            About {appName.title}
           </Typography>
 
-          <Typography variant="body2" color="antiquewhite">
-            {appName} is a weather application that provides up-to-date weather
+          <Typography variant="subtitle1" color="black">
+            {appName.title} is a weather application that provides up-to-date weather
             information for various cities around the world. With a
-            user-friendly interface, we aim to keep our users informed about the
+            user friendly interface, we aim to keep our users informed about the
             current weather conditions, temperature, and more. Our mission is to
             make weather forecasting accessible and reliable to everyone.
           </Typography>
         </Grid>
         <Grid item xs={12} sm={4}>
-          <Typography
+        <Typography
             variant="h6"
-            color="white"
+            color="#333366"
             sx={{
               marginBottom: "10px",
+              fontWeight: 'bold'
             }}
           >
             Useful Links
-            {usefulLinks.map((item) => (
-              <Typography
-                key={item.id}
-                variant="body2"
-                sx={{ marginTop: "5px" }}
-              >
-                <Link to={item.to} style={{ color: "antiquewhite" }}>
+            {services.map((item) => (
+              <Typography variant="subtitle1">
+                <Link to={item.to} style={{ color:"black" }}>
                   {item.name}
                 </Link>
               </Typography>
@@ -62,11 +58,12 @@ const WeatherAppFooter = () => {
           </Typography>
         </Grid>
         <Grid item xs={12} sm={4}>
-          <Typography
+        <Typography
             variant="h6"
-            color="white"
+            color="#333366"
             sx={{
               marginBottom: "10px",
+              fontWeight: 'bold'
             }}
           >
             Socials
@@ -80,7 +77,7 @@ const WeatherAppFooter = () => {
               style={{
                 display: "inline",
                 marginLeft: "10px",
-                color: "antiquewhite",
+                color: "black",
               }}
             >
               {item.icon}

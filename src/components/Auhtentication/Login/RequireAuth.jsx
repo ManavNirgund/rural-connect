@@ -1,5 +1,6 @@
 import React from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import NoAuthToast from "../../Toasts/NoAuthToast";
 
 const RequireAuth = ({ children }) => {
   const location = useLocation();
@@ -7,9 +8,7 @@ const RequireAuth = ({ children }) => {
 
   if (!isAuthenticated) {
     console.log(`Avoided user access using private routes: ${isAuthenticated}`);
-    alert(
-      "You must be logged in to view this page. Please log in or register if you don't have an account yet!"
-    );
+    <NoAuthToast />;
     return <Navigate to="/login" state={{ path: location.pathname }} />;
   }
 

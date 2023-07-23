@@ -1,4 +1,3 @@
-import { Tab } from "@mui/base";
 import {
   Box,
   Button,
@@ -17,7 +16,7 @@ import { useFormik } from "formik";
 import React, { useState } from "react";
 
 const Forecast = () => {
-  const [isForecasrSelected, setIsForecastSelected] = useState(false);
+  const [isForecasrSelected, setIsForecastSelected] = useState(true);
   const [isWeatherNowSelected, setWeatherNowSelected] = useState(false);
   const [isWeatherWeeklySelected, setIsWeatherWeeklySelected] = useState(false);
 
@@ -80,7 +79,7 @@ const Forecast = () => {
         )
         .then((res) => {
           console.log(res.data.entries);
-          setWeeklyWeatherData(res.data.entries)
+          setWeeklyWeatherData(res.data.entries);
         })
         .catch((err) => {
           alert(`${err.name}: ${err.message}`);
@@ -116,6 +115,8 @@ const Forecast = () => {
           variant={isForecasrSelected === true ? "contained" : "outlined"}
           onClick={() => {
             setIsForecastSelected(true);
+            setIsWeatherWeeklySelected(false);
+            setWeatherNowSelected(false);
           }}
           sx={{
             border: "2px solid #870040",
@@ -136,6 +137,8 @@ const Forecast = () => {
         <Button
           variant={isWeatherNowSelected === true ? "contained" : "outlined"}
           onClick={() => {
+            setIsForecastSelected(false);
+            setIsWeatherWeeklySelected(false);
             setWeatherNowSelected(true);
           }}
           sx={{
@@ -157,7 +160,9 @@ const Forecast = () => {
         <Button
           variant={isWeatherWeeklySelected === true ? "contained" : "outlined"}
           onClick={() => {
+            setIsForecastSelected(false);
             setIsWeatherWeeklySelected(true);
+            setWeatherNowSelected(false);
           }}
           sx={{
             border: "2px solid #870040",
