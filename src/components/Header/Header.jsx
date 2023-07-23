@@ -14,12 +14,14 @@ import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { Link } from "react-router-dom";
 import ruralconnect from "../../assets/images/logo/svg/RuralConnect.svg";
+import axios from "axios";
 
 const NavBar = () => {
   const [showNav, setShowNav] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(
     JSON.parse(localStorage.getItem("isAuthenticated"))
   );
+  // const [userEmail, setUserEmail] = useState(localStorage.getItem("email"));
 
   useEffect(() => {
     const handleAuthenticationChange = () => {
@@ -37,6 +39,20 @@ const NavBar = () => {
 
   const toggleNav = () => {
     setShowNav(!showNav);
+  };
+
+  const notify = () => {
+    const email = (localStorage.getItem("email"));
+    axios
+      .get(`http://localhost:8080/notify/${email}`)
+      .then((res) => {
+        console.log("Notification sent successfully");
+        alert(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        alert(err.name);
+      });
   };
 
   return (
@@ -65,6 +81,13 @@ const NavBar = () => {
                 <Link to="/forecast" style={{ color: "black" }}>
                   Weather
                 </Link>
+              </MDBNavbarLink>
+            </MDBNavbarItem>
+            <MDBNavbarItem>
+              <MDBNavbarLink className="nav-link" style={{ color: "black" }}>
+                <a href="#" onClick={notify} style={{ color: "black" }}>
+                  Notify
+                </a>
               </MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>

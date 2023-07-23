@@ -15,15 +15,11 @@ import axios from "axios";
 const Login = () => {
   const nav = useNavigate();
 
-  const isAuthenticated = localStorage.getItem("isAuthenticated");
-  // const location = useLocation();
-  // const redirectPath = location.state?.path || "/";
+  const isAuthenticated = JSON.parse(localStorage.getItem("isAuthenticated"));
 
   const formik = useFormik({
     initialValues: { userid: "", pwd: "" },
     onSubmit: (values) => {
-      console.log("Login: ", values);
-
       const formData = new URLSearchParams();
       formData.append("userid", values.userid);
       formData.append("pwd", values.pwd);
@@ -33,7 +29,8 @@ const Login = () => {
         .then((res) => {
           console.log("Successfully logged in: ", res.data);
           localStorage.setItem("isAuthenticated", true);
-          console.log(`Logged in:  ${isAuthenticated}`);
+          localStorage.setItem("email", values.userid)
+
           if (values.userid == "admin") {
             localStorage.setItem("isAdmin", true);
             nav("/admin");
