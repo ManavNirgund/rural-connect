@@ -63,7 +63,7 @@ const IndianNews = () => {
 
         <Grid container spacing={5} marginTop="1rem">
           {news.map((article, index) => (
-            <Grid item key={index} xs={12} sm={4}>
+           <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
               <a href={article.url} target="_blank">
                 <Card sx={{ height: "100%", backgroundColor: "#ececec" }}>
                   {article.urlToImage && (
