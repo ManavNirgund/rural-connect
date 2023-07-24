@@ -98,7 +98,7 @@ const News = () => {
     axios
       .get(API_URL, {
         params: {
-          q: "farming",
+          q: "agriculture",
           apiKey: API_KEY,
         },
       })
@@ -127,22 +127,31 @@ const News = () => {
         </div>
 
         <Grid container spacing={5} marginTop="1rem">
-          {news.map((article, index) => (
-            <Grid item key={index} xs={12} sm={4}>
-              <Card sx={{ height: "100%", backgroundColor: "#ececec" }}>
-                {article.urlToImage && (
-                  <img
-                    src={article.urlToImage}
-                    alt={article.title}
-                    style={{ height: "200px", objectFit: "cover" }}
-                  />
-                )}
+          {news.map((article, index) => {
+            const dateObj = new Date(article.publishedAt);
+            const localTime = dateObj.toLocaleString();
+            // const year = dateObj.getFullYear();
+            // const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+            // const day = String(dateObj.getDate()).padStart(2, "0");
 
-                <Typography variant="h4">{article.title}</Typography>
-                <Typography>{article.source.name}</Typography>
-              </Card>
-            </Grid>
-          ))}
+            return (
+              <Grid item key={index} xs={12} sm={4}>
+                <Card sx={{ height: "100%", backgroundColor: "#ececec" }}>
+                  {article.urlToImage && (
+                    <img
+                      src={article.urlToImage}
+                      alt={article.title}
+                      style={{ height: "200px", objectFit: "cover" }}
+                    />
+                  )}
+
+                  <Typography variant="h4">{article.title}</Typography>
+                  <Typography>{`Source: ${article.source.name}`}</Typography>
+                  <Typography>{`Published at: ${localTime}`}</Typography>
+                </Card>
+              </Grid>
+            );
+          })}
         </Grid>
       </div>
     </div>

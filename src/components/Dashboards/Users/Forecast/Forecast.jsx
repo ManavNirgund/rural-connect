@@ -444,26 +444,35 @@ const Forecast = () => {
             <TableHead>
               <TableRow>
                 <TableCell sx={headerCellStyle}>Date</TableCell>
+                <TableCell sx={headerCellStyle}>Time</TableCell>
                 <TableCell sx={headerCellStyle}>Temperature</TableCell>
                 <TableCell sx={headerCellStyle}>Climate</TableCell>
               </TableRow>
             </TableHead>
-            {forecastData.map((item, index) => (
-              <TableBody key={index}>
-                <TableRow>
-                  <TableCell sx={cellStyle}>{item.date}</TableCell>
-                  <TableCell sx={cellStyle}>
-                    {item.celsiusTemperature}
-                  </TableCell>
-                  <TableCell sx={cellStyle}>
-                    {item.description}{" "}
-                    <img
-                      src={`http://openweathermap.org/img/w/${item.weatherIcon}.png`}
-                    />{" "}
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            ))}
+            {forecastData.map((item, index) => {
+
+              const dateObj = new Date(item.date);
+              const localTime = dateObj.toLocaleString();
+              const [date, time] = localTime.split(", ")
+
+              return (
+                <TableBody key={index}>
+                  <TableRow>
+                    <TableCell sx={cellStyle}>{date}</TableCell>
+                    <TableCell sx={cellStyle}>{time}</TableCell>
+                    <TableCell sx={cellStyle}>
+                      {item.celsiusTemperature}
+                    </TableCell>
+                    <TableCell sx={cellStyle}>
+                      {item.description}{" "}
+                      <img
+                        src={`http://openweathermap.org/img/w/${item.weatherIcon}.png`}
+                      />{" "}
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              );
+            })}
           </Table>
         </div>
       )}
