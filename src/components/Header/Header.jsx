@@ -21,6 +21,7 @@ import ruralconnect from "../../assets/images/logo/svg/RuralConnect.svg";
 import axios from "axios";
 import { newsDropdown } from "../../assets/data/enums";
 import { CircularProgress } from "@mui/material";
+import "./Header.css";
 
 const NavBar = () => {
   const [showNav, setShowNav] = useState(false);
@@ -82,7 +83,9 @@ const NavBar = () => {
             />
           </Link>
         </MDBNavbarBrand>
-        <MDBNavbarToggler onClick={toggleNav} />
+        <MDBNavbarToggler onClick={toggleNav} className="custom-navbar-toggler">
+          <i className="fas fa-bars"></i>
+        </MDBNavbarToggler>
         <MDBCollapse navbar show={showNav}>
           <MDBNavbarNav className="mr-auto">
             <MDBNavbarItem>

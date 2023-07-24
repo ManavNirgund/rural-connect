@@ -6,15 +6,19 @@ import { Card, Grid, Typography } from "@mui/material";
 
 const IndianNews = () => {
   const [news, setNews] = useState([]);
-  const [location, setLocation] = useState(""); // State or city location in India
 
   useEffect(() => {
     // Update API_URL with the location parameter
     const API_KEY = "0d3a2f07e77443c291a86b824d47cf6f";
-    const API_URL = `https://newsapi.org/v2/top-headlines?country=in&category=${location}&apiKey=${API_KEY}`;
+    const API_URL = `https://newsapi.org/v2/top-headlines?country=in`;
+    const params = {
+      apiKey: API_KEY,
+    }
 
     axios
-      .get(API_URL)
+      .get(API_URL, {
+        params: params
+      })
       .then((response) => {
         console.log(response.data.articles);
         setNews(response.data.articles);
@@ -22,11 +26,11 @@ const IndianNews = () => {
       .catch((error) => {
         alert(`${error.name}: ${error.message}`);
       });
-  }, [location]); // Run the effect whenever the location changes
+  }, []); // Run the effect whenever the location changes
 
-  const handleLocationChange = (event) => {
-    setLocation(event.target.value);
-  };
+  // const handleLocationChange = (event) => {
+  //   setLocation(event.target.value);
+  // };
 
   return (
     <div>
@@ -40,23 +44,22 @@ const IndianNews = () => {
           />
           <div className="overlay"></div>
           <h2>Indian News</h2>
-          <div>
-            {/* Dropdown to select the location */}
-            <label htmlFor="location">Select Location:</label>
-            <select
-              id="location"
-              value={location}
-              onChange={handleLocationChange}
-            >
-              <option value="">All</option>
-              <option value="Kerala">Kerala</option>
-              <option value="Karnataka">Karnataka</option>
-              <option value="Mumbai">Mumbai</option>
-              <option value="Delhi">Delhi</option>
-              {/* Add more options for other states or cities */}
-            </select>
-          </div>
         </div>
+
+        {/* <div>
+          <label htmlFor="location">Select Location:</label>
+          <select
+            id="location"
+            value={location}
+            onChange={handleLocationChange}
+          >
+            <option value="">All</option>
+            <option value="kerala">Kerala</option>
+            <option value="Karnataka">Karnataka</option>
+            <option value="Mumbai">Mumbai</option>
+            <option value="Delhi">Delhi</option>
+          </select>
+        </div> */}
 
         <Grid container spacing={5} marginTop="1rem">
           {news.map((article, index) => (
