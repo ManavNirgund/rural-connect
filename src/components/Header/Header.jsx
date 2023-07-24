@@ -20,10 +20,15 @@ import { Link } from "react-router-dom";
 import ruralconnect from "../../assets/images/logo/svg/RuralConnect.svg";
 import axios from "axios";
 import { newsDropdown } from "../../assets/data/enums";
+import { CircularProgress } from "@mui/material";
 
 const NavBar = () => {
   const [showNav, setShowNav] = useState(false);
   const [selectedItem, setSelectedItem] = useState("");
+
+  const [isNotifyDisabled, setIsNotifyDisabled] = useState(true);
+  const [isLogoutDisabled, setIsLogoutDisabled] = useState(true);
+
   const [isAuthenticated, setIsAuthenticated] = useState(
     JSON.parse(localStorage.getItem("isAuthenticated"))
   );
@@ -49,15 +54,18 @@ const NavBar = () => {
 
   const notify = () => {
     const email = localStorage.getItem("email");
+    setIsNotifyDisabled(false);
     axios
       .get(`http://localhost:8080/notify/${email}`)
       .then((res) => {
         console.log("Notification sent successfully");
         alert(res.data);
+        setIsNotifyDisabled(true);
       })
       .catch((err) => {
         console.log(err);
         alert(err.name);
+        setIsNotifyDisabled(true);
       });
   };
 
@@ -91,9 +99,13 @@ const NavBar = () => {
             </MDBNavbarItem>
             <MDBNavbarItem>
               <MDBNavbarLink className="nav-link" style={{ color: "black" }}>
-                <a href="#" onClick={notify} style={{ color: "black" }}>
-                  Notify
-                </a>
+                {isNotifyDisabled ? (
+                  <a href="#" onClick={notify} style={{ color: "black" }}>
+                    Notify
+                  </a>
+                ) : (
+                  <CircularProgress size={20} color="primary" />
+                )}
               </MDBNavbarLink>
             </MDBNavbarItem>
             {/* News */}

@@ -11,93 +11,35 @@ import {
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { appName, locations } from "../../assets/data/enums";
 
 const LandingPage = () => {
-  const [WeatherDataNY, setWeatherDataNY] = useState(null);
-  const [WeatherDataP, setWeatherDataP] = useState(null);
-  const [WeatherDataM, setWeatherDataM] = useState(null);
-  const [WeatherDataB, setWeatherDataB] = useState(null);
-  const [WeatherDataH, setWeatherDataH] = useState(null);
+  const [weatherData, setWeatherData] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:8080/current`, {
-        params: {
-          country: "USA",
-          city: "New york",
-        },
-      })
-      .then((res) => {
-        setWeatherDataNY(res.data);
-      })
-      .catch((err) => {
-        alert(`${err.name}: ${err.message}`);
-      });
-  }, []);
+    const fetchData = async () => {
+      try {
+        // const apiKey = "0d3a2f07e77443c291a86b824d47cf6f";
+        const requests = locations.map((location) =>
+          axios.get(`http://localhost:8080/current`, {
+            params: {
+              country: location.country,
+              city: location.city,
+              // apiKey,
+            },
+          })
+        );
 
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8080/current`, {
-        params: {
-          country: "India",
-          city: "Palakkad",
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-        setWeatherDataP(res.data);
-      })
-      .catch((err) => {
-        alert(`${err.name}: ${err.message}`);
-      });
-  }, []);
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8080/current`, {
-        params: {
-          country: "India",
-          city: "Mumbai",
-        },
-      })
-      .then((res) => {
-        // console.log(res.data);
-        setWeatherDataM(res.data);
-      })
-      .catch((err) => {
-        alert(`${err.name}: ${err.message}`);
-      });
-  }, []);
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8080/current`, {
-        params: {
-          country: "India",
-          city: "Bengaluru",
-        },
-      })
-      .then((res) => {
-        // console.log(res.data);
-        setWeatherDataB(res.data);
-      })
-      .catch((err) => {
-        alert(`${err.name}: ${err.message}`);
-      });
-  }, []);
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8080/current`, {
-        params: {
-          country: "India",
-          city: "Hubli",
-        },
-      })
-      .then((res) => {
-        // console.log(res.data);
-        setWeatherDataH(res.data);
-      })
-      .catch((err) => {
-        alert(`${err.name}: ${err.message}`);
-      });
+        const responses = await Promise.all(requests);
+        const data = responses.map((response) => response.data);
+        setWeatherData(data);
+      } catch (error) {
+        alert(`${error.name}: ${error.message}`);
+        // Handle the error, show a user-friendly message, or log it.
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (
@@ -108,10 +50,10 @@ const LandingPage = () => {
     >
       <div>
         <Typography variant="h3" marginBottom="2rem" fontWeight="meduim">
-          Welcome to Rural Connect!
+          Welcome to {appName.title}!
         </Typography>
         <Typography variant="subtitle1" marginBottom="2rem">
-          Rural Connect is a weather application that provides up-to-date
+          {appName.title} is a weather application that provides up-to-date
           weather information for various cities around the world. With a
           user-friendly interface, we aim to keep our users informed about the
           current weather conditions, temperature, and more. Our mission is to
@@ -125,192 +67,54 @@ const LandingPage = () => {
         </Typography>
       </div>
 
-      <Grid
-        container
-        spacing={2}
-        display="flex"
-        flexWrap="nowrap"
-        flexDirection="row"
-        justifyContent="center"
-        alignItems="center"
-        justifyItems="center"
-        alignContent="center"
-        marginBottom="2rem"
-      >
-        <Grid item xs={12}>
-          {!WeatherDataNY ? (
-            <>Loading...</>
-          ) : (
-            // <h1>{`The temperature in ${weatherData?.city} is currently `}</h1>
-            <Paper>
-              <Card
-                component={Link}
-                sx={{
-                  maxWidth: 345,
-                }}
-                to="forecast"
-              >
-                <CardMedia>
-                  <img
-                    src={`http://openweathermap.org/img/w/${WeatherDataNY.icon}.png`}
-                    width="100vw"
-                  />
-                </CardMedia>
-                <CardContent>
-                  <Typography variant="overline">
-                    {WeatherDataNY.city}
-                  </Typography>
-                  <Typography variant="h6" component="h6">
-                    {WeatherDataNY.country}
-                  </Typography>
-                  <Typography variant="h6" component="h6">
-                    {`${Math.round(WeatherDataNY.celsiusTemperature)}°C`}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Paper>
-          )}
+      {weatherData && (
+        <Grid
+          container
+          spacing={2}
+          display="flex"
+          flexWrap="nowrap"
+          flexDirection="row"
+          justifyContent="center"
+          alignItems="center"
+          justifyItems="center"
+          alignContent="center"
+          marginBottom="2rem"
+        >
+          {weatherData.map((data, index) => (
+            <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
+              {!data ? (
+                <>Loading...</>
+              ) : (
+                <Paper>
+                  <Card
+                    component={Link}
+                    sx={{
+                      maxWidth: 345,
+                    }}
+                    to="forecast"
+                  >
+                    <CardMedia>
+                      <img
+                        src={`http://openweathermap.org/img/w/${data.icon}.png`}
+                        width="100vw"
+                      />
+                    </CardMedia>
+                    <CardContent>
+                      <Typography variant="overline">{data.city}</Typography>
+                      <Typography variant="h6" component="h6">
+                        {data.country}
+                      </Typography>
+                      <Typography variant="h6" component="h6">
+                        {`${Math.round(data.celsiusTemperature)}°C`}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Paper>
+              )}
+            </Grid>
+          ))}
         </Grid>
-
-        <Grid item xs={12}>
-          {!WeatherDataP ? (
-            <>Loading...</>
-          ) : (
-            // <h1>{`The temperature in ${weatherData?.city} is currently `}</h1>
-            <Paper>
-              <Card
-                component={Link}
-                sx={{
-                  maxWidth: 345,
-                }}
-                to="/forecast"
-              >
-                <CardMedia>
-                  <img
-                    src={`http://openweathermap.org/img/w/${WeatherDataP.icon}.png`}
-                    width="100vw"
-                  />
-                </CardMedia>
-                <CardContent>
-                  <Typography variant="overline">
-                    {WeatherDataP.city}
-                  </Typography>
-                  <Typography variant="h6" component="h6">
-                    {WeatherDataP.country}
-                  </Typography>
-                  <Typography variant="h6" component="h6">
-                    {`${Math.round(WeatherDataP.celsiusTemperature)}°C`}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Paper>
-          )}
-        </Grid>
-        <Grid item xs={12}>
-          {!WeatherDataB ? (
-            <>Loading...</>
-          ) : (
-            // <h1>{`The temperature in ${weatherData?.city} is currently `}</h1>
-            <Paper>
-              <Card
-                component={Link}
-                sx={{
-                  maxWidth: 345,
-                }}
-                to="forecast"
-              >
-                <CardMedia>
-                  <img
-                    src={`http://openweathermap.org/img/w/${WeatherDataB.icon}.png`}
-                    width="100vw"
-                  />
-                </CardMedia>
-                <CardContent>
-                  <Typography variant="overline">
-                    {WeatherDataB.city}
-                  </Typography>
-                  <Typography variant="h6" component="h6">
-                    {WeatherDataB.country}
-                  </Typography>
-                  <Typography variant="h6" component="h6">
-                    {`${Math.round(WeatherDataB.celsiusTemperature)}°C`}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Paper>
-          )}
-        </Grid>
-
-        <Grid item xs={12}>
-          {!WeatherDataH ? (
-            <>Loading...</>
-          ) : (
-            // <h1>{`The temperature in ${weatherData?.city} is currently `}</h1>
-            <Paper>
-              <Card
-                component={Link}
-                sx={{
-                  maxWidth: 345,
-                }}
-                to="forecast"
-              >
-                <CardMedia>
-                  <img
-                    src={`http://openweathermap.org/img/w/${WeatherDataH.icon}.png`}
-                    width="100vw"
-                  />
-                </CardMedia>
-                <CardContent>
-                  <Typography variant="overline">
-                    {WeatherDataH.city}
-                  </Typography>
-                  <Typography variant="h6" component="h6">
-                    {WeatherDataH.country}
-                  </Typography>
-                  <Typography variant="h6" component="h6">
-                    {`${Math.round(WeatherDataH.celsiusTemperature)}°C`}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Paper>
-          )}
-        </Grid>
-
-        <Grid item xs={12}>
-          {!WeatherDataM ? (
-            <>Loading...</>
-          ) : (
-            // <h1>{`The temperature in ${weatherData?.city} is currently `}</h1>
-            <Paper>
-              <Card
-                component={Link}
-                sx={{
-                  maxWidth: 345,
-                }}
-                to="forecast"
-              >
-                <CardMedia>
-                  <img
-                    src={`http://openweathermap.org/img/w/${WeatherDataM.icon}.png`}
-                    width="100vw"
-                  />
-                </CardMedia>
-                <CardContent>
-                  <Typography variant="overline">
-                    {WeatherDataM.city}
-                  </Typography>
-                  <Typography variant="h6" component="h6">
-                    {WeatherDataM.country}
-                  </Typography>
-                  <Typography variant="h6" component="h6">
-                    {`${Math.round(WeatherDataM.celsiusTemperature)}°C`}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Paper>
-          )}
-        </Grid>
-      </Grid>
+      )}
     </Container>
   );
 };

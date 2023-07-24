@@ -17,7 +17,7 @@ import { useFormik } from "formik";
 
 const Dashboard = () => {
   const [userData, setUserData] = useState([]);
-  const [isAllUsersSelected, setIsAllUsersSelected] = useState(false);
+  const [isAllUsersSelected, setIsAllUsersSelected] = useState(true);
   const [
     isWeatherByCountryAndCitySelected,
     setIsWeatherByCountryAndCitySelected,

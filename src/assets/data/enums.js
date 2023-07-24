@@ -33,3 +33,11 @@ export const newsDropdown = [
   {id: 1, name: "Global News", to: "/news"},
   {id: 2, name: "Local News", to: "/local-news"},
 ]
+
+export const locations = [
+  { country: "USA", city: "New york" },
+  { country: "India", city: "Palakkad" },
+  { country: "India", city: "Mumbai" },
+  { country: "India", city: "Bengaluru" },
+  { country: "India", city: "Hubli" },
+];

@@ -27,15 +27,13 @@ const Login = () => {
       axios
         .post("http://localhost:8080/login", formData)
         .then((res) => {
-          console.log("Successfully logged in: ", res.data);
           localStorage.setItem("isAuthenticated", true);
-          localStorage.setItem("email", values.userid)
+          localStorage.setItem("email", values.userid);
 
-          if (values.userid == "admin") {
+          if (values.userid === "admin") {
             localStorage.setItem("isAdmin", true);
             nav("/admin");
           } else {
-            console.log("Not an admin");
             localStorage.setItem("isAdmin", false);
             nav("/forecast");
           }
@@ -44,7 +42,6 @@ const Login = () => {
           console.error(err);
           alert(err.response.data);
           localStorage.setItem("isAuthenticated", false);
-          console.log(`Not Logged in:  ${isAuthenticated}`);
           formik.resetForm();
         });
     },
@@ -99,6 +96,7 @@ const Login = () => {
           justifyContent="center"
           direction="column"
         >
+          {/* User ID field */}
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
@@ -112,6 +110,7 @@ const Login = () => {
               onBlur={formik.handleBlur}
             />
           </Grid>
+          {/* Password field */}
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
@@ -125,6 +124,7 @@ const Login = () => {
               onBlur={formik.handleBlur}
             />
           </Grid>
+          {/* Login button */}
           <Grid item xs={12}>
             <Button
               variant="contained"
@@ -138,6 +138,7 @@ const Login = () => {
               Login
             </Button>
           </Grid>
+          {/* Register link */}
           <Grid item xs={12} sx={{ display: "flex", alignItems: "center" }}>
             <Typography>Don't have an account?</Typography>
             <Button
