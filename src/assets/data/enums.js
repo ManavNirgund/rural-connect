@@ -30,7 +30,7 @@ export const services = [
 ]
 
 export const newsDropdown = [
-  {id: 1, name: "Global News", to: "/news"},
+  {id: 1, name: "Agriculture", to: "/news"},
   {id: 2, name: "Local News", to: "/local-news"},
 ]
 

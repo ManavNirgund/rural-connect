@@ -54,15 +54,10 @@ const Forecast = () => {
     initialValues: initialValues,
     onSubmit: (values) => {
       axios
-        .get(`http://localhost:8080/api/now/${values.country}/${values.city}`, {
-          params: {
-            country: values.country,
-            city: values.city,
-          },
-        })
+        .get(`http://localhost:8080/api/now/${values.country}/${values.city}`)
         .then((res) => {
-          console.log(res.data.entries);
-          setWeatherNowData(res.data.entries);
+          console.log(res.data);
+          setWeatherNowData(res.data);
         })
         .catch((err) => {
           alert(`${err.name}: ${err.message}`);

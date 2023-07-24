@@ -90,21 +90,20 @@ const News = () => {
   const [news, setNews] = useState([]);
 
   useEffect(() => {
-     const API_KEY = 'acbd789b603b4c30b65b99e4114f0da0'; // Mine
+    const API_KEY = "acbd789b603b4c30b65b99e4114f0da0"; // Mine
     // const API_KEY = "0d3a2f07e77443c291a86b824d47cf6f";
-    const API_URL = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${API_KEY}`;
+    // const API_URL = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${API_KEY}`;
+    const API_URL = `https://newsapi.org/v2/everything`;
 
     axios
-      .get(API_URL)
+      .get(API_URL, {
+        params: {
+          q: "farming",
+          apiKey: API_KEY,
+        },
+      })
       .then((response) => {
         console.log(response.data);
-
-        // const filteredNewsData = response.data.articles.filter(
-        //   (article) =>
-        //     article.title.toLowerCase().includes("agriculture") ||
-        //     article.description.toLowerCase().includes("angriculture")
-        // );
-
         setNews(response.data.articles);
       })
       .catch((error) => {
@@ -127,15 +126,18 @@ const News = () => {
           <h2>Latest News</h2>
         </div>
 
-        <Grid container spacing={5}>
+        <Grid container spacing={5} marginTop="1rem">
           {news.map((article, index) => (
             <Grid item key={index} xs={12} sm={4}>
               <Card sx={{ height: "100%", backgroundColor: "#ececec" }}>
-                <img
-                  src={article.urlToImage}
-                  alt={article.title}
-                  style={{ height: "200px", objectFit: "cover" }}
-                />
+                {article.urlToImage && (
+                  <img
+                    src={article.urlToImage}
+                    alt={article.title}
+                    style={{ height: "200px", objectFit: "cover" }}
+                  />
+                )}
+
                 <Typography variant="h4">{article.title}</Typography>
                 <Typography>{article.source.name}</Typography>
               </Card>
