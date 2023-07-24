@@ -9,6 +9,8 @@ import Forecast from "./components/Dashboards/Users/Forecast/Forecast";
 import RequireAuth from "./components/Auhtentication/Login/RequireAuth";
 import LandingPage from "./components/LandingPage/LandingPage";
 import WeatherAppFooter from "./components/Footer/Footer";
+import News from "./components/News/News";
+import IndianNews from "./components/News/IndianNews";
 
 function App() {
   return (
@@ -35,7 +37,25 @@ function App() {
               <Forecast />{" "}
             </RequireAuth>
           }
-        ></Route>
+        />
+        <Route
+          path="/news"
+          element={
+            <RequireAuth>
+              {" "}
+              <News />{" "}
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/local-news"
+          element={
+            <RequireAuth>
+              {" "}
+              <IndianNews />{" "}
+            </RequireAuth>
+          }
+        />
       </Routes>
 
       <WeatherAppFooter />

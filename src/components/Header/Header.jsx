@@ -9,15 +9,21 @@ import {
   MDBNavbarToggler,
   MDBCollapse,
   MDBBtn,
+  MDBDropdown,
+  MDBDropdownToggle,
+  MDBDropdownMenu,
+  MDBDropdownItem,
 } from "mdb-react-ui-kit";
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { Link } from "react-router-dom";
 import ruralconnect from "../../assets/images/logo/svg/RuralConnect.svg";
 import axios from "axios";
+import { newsDropdown } from "../../assets/data/enums";
 
 const NavBar = () => {
   const [showNav, setShowNav] = useState(false);
+  const [selectedItem, setSelectedItem] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(
     JSON.parse(localStorage.getItem("isAuthenticated"))
   );
@@ -42,7 +48,7 @@ const NavBar = () => {
   };
 
   const notify = () => {
-    const email = (localStorage.getItem("email"));
+    const email = localStorage.getItem("email");
     axios
       .get(`http://localhost:8080/notify/${email}`)
       .then((res) => {
@@ -90,10 +96,38 @@ const NavBar = () => {
                 </a>
               </MDBNavbarLink>
             </MDBNavbarItem>
+            {/* News */}
             <MDBNavbarItem>
-              <MDBNavbarLink href="#" style={{ color: "black" }}>
-                News
-              </MDBNavbarLink>
+              <MDBDropdown>
+                <MDBDropdownToggle
+                  tag="a"
+                  className="nav-link"
+                  role="button"
+                  style={{ color: "black" }}
+                >
+                  {selectedItem ? selectedItem.name : "News"}
+                </MDBDropdownToggle>
+                <MDBDropdownMenu style={{ borderRadius: "5px" }}>
+                  {newsDropdown.map((item) => {
+                    return (
+                      <MDBDropdownItem
+                        key={item.id}
+                        style={{
+                          marginTop: "5px",
+                          marginLeft: "5px",
+                          marginRight: "5px",
+                          borderBottom: "1px solid gray",
+                        }}
+                        onClick={() => setSelectedItem(item)}
+                      >
+                        <Link to={item.to} style={{ color: "black" }}>
+                          {item.name}
+                        </Link>
+                      </MDBDropdownItem>
+                    );
+                  })}
+                </MDBDropdownMenu>
+              </MDBDropdown>
             </MDBNavbarItem>
           </MDBNavbarNav>
           <MDBNavbarNav className="d-flex align-items-center">

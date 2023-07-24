@@ -28,3 +28,8 @@ export const services = [
     {id: 1, name: "Weather", to: "/forecast"},
     {id: 2, name:"News", to: "/"},
 ]
+
+export const newsDropdown = [
+  {id: 1, name: "Global News", to: "/news"},
+  {id: 2, name: "Local News", to: "/local-news"},
+]
