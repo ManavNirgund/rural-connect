@@ -1,6 +1,7 @@
 import React from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import NoAuthToast from "../../Toasts/NoAuthToast";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const RequireAuth = ({ children }) => {
   const location = useLocation();
@@ -8,11 +9,22 @@ const RequireAuth = ({ children }) => {
 
   if (!isAuthenticated) {
     console.log(`Avoided user access using private routes: ${isAuthenticated}`);
-    <NoAuthToast />;
-    return <Navigate to="/login" state={{ path: location.pathname }} />;
+    // toast message
+    toast("please log in")
+
+    return (
+      <>
+        <Navigate to="/login" state={{ path: location.pathname }} />
+      </>
+    );
   }
 
-  return children;
+  return (
+    <>
+      <ToastContainer />
+      {children}
+    </>
+  );
 };
 
 export default RequireAuth;

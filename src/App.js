@@ -11,6 +11,7 @@ import LandingPage from "./components/LandingPage/LandingPage";
 import WeatherAppFooter from "./components/Footer/Footer";
 import News from "./components/News/News";
 import IndianNews from "./components/News/IndianNews";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -59,6 +60,7 @@ function App() {
       </Routes>
 
       <WeatherAppFooter />
+      <ToastContainer position="top-center" />
     </div>
   );
 }

@@ -11,6 +11,7 @@ import logo from "../../../assets/images/logo/png/logo-no-background.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
 const Login = () => {
   const nav = useNavigate();
@@ -40,7 +41,7 @@ const Login = () => {
         })
         .catch((err) => {
           console.error(err);
-          alert(err.response.data);
+          toast.error(err.response.data);
           localStorage.setItem("isAuthenticated", false);
           formik.resetForm();
         });
@@ -77,7 +78,7 @@ const Login = () => {
           src={logo}
           style={{
             marginTop: "2rem",
-            maxWidth: "60vh"
+            maxWidth: "60vh",
           }}
         />
 
@@ -156,6 +157,7 @@ const Login = () => {
           </Grid>
         </Grid>
       </Box>
+
     </Container>
   );
 };
