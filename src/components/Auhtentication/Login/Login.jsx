@@ -38,6 +38,8 @@ const Login = () => {
             localStorage.setItem("isAdmin", false);
             nav("/forecast");
           }
+          console.log(res);
+          toast.success(res.data);
         })
         .catch((err) => {
           console.error(err);
@@ -157,7 +159,6 @@ const Login = () => {
           </Grid>
         </Grid>
       </Box>
-
     </Container>
   );
 };

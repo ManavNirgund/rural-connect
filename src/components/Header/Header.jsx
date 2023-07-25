@@ -30,27 +30,7 @@ const NavBar = () => {
   const [isNotifyDisabled, setIsNotifyDisabled] = useState(true);
   const [isLogoutDisabled, setIsLogoutDisabled] = useState(true);
 
-  // const [isAuthenticated, setIsAuthenticated] = useState(
-  //   JSON.parse(localStorage.getItem("isAuthenticated"))
-  // );
-
   const isAuthenticated = JSON.parse(localStorage.getItem("isAuthenticated"));
-
-  // const [userEmail, setUserEmail] = useState(localStorage.getItem("email"));
-
-  // useEffect(() => {
-  //   const handleAuthenticationChange = () => {
-  //     setIsAuthenticated(JSON.parse(localStorage.getItem("isAuthenticated")));
-  //   };
-
-  //   // Listen for changes to 'isAuthenticated' in localStorage
-  //   window.addEventListener("storage", handleAuthenticationChange);
-
-  //   // Cleanup the event listener when the component unmounts
-  //   return () => {
-  //     window.removeEventListener("storage", handleAuthenticationChange);
-  //   };
-  // }, []);
 
   const toggleNav = () => {
     setShowNav(!showNav);

@@ -9,21 +9,29 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import logo from "../../../assets/images/logo/png/logo-no-background.png";
-import { Link, useNavigate, useNavigation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Register = () => {
   const nav = useNavigate();
 
+  const getYesterdayDate = () => {
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+    return yesterday.toISOString().split("T")[0];
+  };
+
   const formik = useFormik({
     initialValues: {
       userid: "",
       uname: "",
-      pwd: "",
       country: "",
       city: "",
+      pwd: "",
       role: "user",
-      weather: "sunny",
+      bonus_points: 0,
+      last_login_date: getYesterdayDate(),
     },
     onSubmit: (values) => {
       console.log("Before register: ", values);
