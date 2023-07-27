@@ -24,46 +24,46 @@ const WeatherAppFooter = () => {
             color="#333366"
             sx={{
               marginBottom: "10px",
-              fontWeight: 'bold'
+              fontWeight: "bold",
             }}
           >
             About {appName.title}
           </Typography>
 
           <Typography variant="subtitle1" color="black">
-            {appName.title} is a weather application that provides up-to-date weather
-            information for various cities around the world. With a
-            user friendly interface, we aim to keep our users informed about the
+            {appName.title} is a weather application that provides up-to-date
+            weather information for various cities around the world. With a user
+            friendly interface, we aim to keep our users informed about the
             current weather conditions, temperature, and more. Our mission is to
             make weather forecasting accessible and reliable to everyone.
           </Typography>
         </Grid>
         <Grid item xs={12} sm={4}>
-        <Typography
+          <Typography
             variant="h6"
             color="#333366"
             sx={{
               marginBottom: "10px",
-              fontWeight: 'bold'
+              fontWeight: "bold",
             }}
           >
             Useful Links
-            {services.map((item) => (
-              <Typography variant="subtitle1">
-                <Link to={item.to} style={{ color:"black" }}>
-                  {item.name}
-                </Link>
-              </Typography>
-            ))}
           </Typography>
+          {services.map((item) => (
+            <Typography variant="subtitle1" key={item.id}>
+              <Link to={item.to} style={{ color: "black" }}>
+                {item.name}
+              </Link>
+            </Typography>
+          ))}
         </Grid>
         <Grid item xs={12} sm={4}>
-        <Typography
+          <Typography
             variant="h6"
             color="#333366"
             sx={{
               marginBottom: "10px",
-              fontWeight: 'bold'
+              fontWeight: "bold",
             }}
           >
             Socials

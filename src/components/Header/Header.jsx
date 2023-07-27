@@ -53,6 +53,14 @@ const NavBar = () => {
       });
   };
 
+  const logout = () => {
+    localStorage.setItem("isAuthenticated", false);
+    axios.get("http://localhost:8080/logout").then((res) => {
+      console.log(res.data);
+      console.log(`logged out: ${isAuthenticated}`);
+    });
+  };
+
   return (
     <MDBNavbar expand="lg" light style={{ backgroundColor: "#75B59E" }}>
       <MDBContainer fluid>
@@ -70,7 +78,7 @@ const NavBar = () => {
           <i className="fas fa-bars"></i>
         </MDBNavbarToggler>
         <MDBCollapse navbar show={showNav}>
-          <MDBNavbarNav className="mr-auto">
+          <MDBNavbarNav className="justify-content-between w-100 flex-grow-1">
             <MDBNavbarItem>
               <MDBNavbarLink href="#" style={{ color: "black" }}>
                 Home
@@ -84,15 +92,18 @@ const NavBar = () => {
               </MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>
-              <MDBNavbarLink className="nav-link" style={{ color: "black" }}>
-                {isNotifyDisabled ? (
-                  <a href="#" onClick={notify} style={{ color: "black" }}>
-                    Notify
-                  </a>
-                ) : (
-                  <CircularProgress size={20} color="primary" />
-                )}
-              </MDBNavbarLink>
+              {isNotifyDisabled ? (
+                <MDBNavbarLink
+                  href="#"
+                  onClick={notify}
+                  className="nav-link"
+                  style={{ color: "black" }}
+                >
+                  Notify
+                </MDBNavbarLink>
+              ) : (
+                <CircularProgress size={20} color="primary" />
+              )}
             </MDBNavbarItem>
             {/* News */}
             <MDBNavbarItem>
@@ -127,18 +138,21 @@ const NavBar = () => {
                 </MDBDropdownMenu>
               </MDBDropdown>
             </MDBNavbarItem>
-          </MDBNavbarNav>
-          <MDBNavbarNav className="d-flex align-items-center">
+            <MDBNavbarItem>
+              <MDBNavbarLink className="nav-link">
+                <Link to="/publish" style={{ color: "black" }}>
+                  Create
+                </Link>
+              </MDBNavbarLink>
+            </MDBNavbarItem>
+            <MDBNavbarItem></MDBNavbarItem>
             <div className="flex-grow-1">
               {isAuthenticated && (
                 <MDBNavbarItem>
                   <MDBBtn
                     color="secondary"
                     style={{ boxShadow: "none" }}
-                    onClick={() => {
-                      localStorage.setItem("isAuthenticated", false);
-                      console.log(`logged out: ${isAuthenticated}`);
-                    }}
+                    onClick={logout}
                   >
                     <Link to="/login">Logout</Link>
                   </MDBBtn>
@@ -164,21 +178,6 @@ const NavBar = () => {
                 </MDBNavbarItem>
               </>
             )}
-
-            {/* {isAuthenticated == true && (
-              <MDBNavbarItem>
-                <MDBBtn
-                  color="secondary"
-                  style={{ boxShadow: "none" }}
-                  onClick={() => {
-                    localStorage.setItem("isAuthenticated", false);
-                    console.log(`logged out: ${isAuthenticated}`);
-                  }}
-                >
-                  <Link to="/">Logout</Link>
-                </MDBBtn>
-              </MDBNavbarItem>
-            )} */}
           </MDBNavbarNav>
         </MDBCollapse>
       </MDBContainer>

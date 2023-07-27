@@ -78,6 +78,7 @@ const Forecast = () => {
         })
         .catch((err) => {
           alert(`${err.name}: ${err.message}`);
+          console.log(err);
         });
     },
   });
@@ -450,10 +451,9 @@ const Forecast = () => {
               </TableRow>
             </TableHead>
             {forecastData.map((item, index) => {
-
               const dateObj = new Date(item.date);
               const localTime = dateObj.toLocaleString();
-              const [date, time] = localTime.split(", ")
+              const [date, time] = localTime.split(", ");
 
               return (
                 <TableBody key={index}>
