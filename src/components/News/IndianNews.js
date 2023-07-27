@@ -36,7 +36,7 @@ const IndianNews = () => {
         console.log(response.data.articles);
         setNews(response.data.articles);
 
-        console.log(`newsData: ${newsData}`)
+        // console.log(`newsData: ${newsData}`)
       })
       .catch((error) => {
         alert(`${error.name}: ${error.message}`);
