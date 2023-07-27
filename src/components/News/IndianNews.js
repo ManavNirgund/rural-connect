@@ -6,6 +6,19 @@ import { Card, Grid, Typography } from "@mui/material";
 
 const IndianNews = () => {
   const [news, setNews] = useState([]);
+  const [userData, setUserData] = useState([]);
+
+  useEffect(() => {
+    const userid = localStorage.getItem("email");
+
+    axios
+      .get(`http://localhost:8080/users/${userid}`)
+      .then((res) => {
+        console.log(res.data);
+        setUserData(res.data);
+      })
+      .catch((err) => console.log(err.name, err.message));
+  }, []);
 
   useEffect(() => {
     // Update API_URL with the location parameter
@@ -13,24 +26,22 @@ const IndianNews = () => {
     const API_URL = `https://newsapi.org/v2/top-headlines?country=in`;
     const params = {
       apiKey: API_KEY,
-    }
+    };
 
     axios
       .get(API_URL, {
-        params: params
+        params: params,
       })
       .then((response) => {
         console.log(response.data.articles);
         setNews(response.data.articles);
+
+        console.log(`newsData: ${newsData}`)
       })
       .catch((error) => {
         alert(`${error.name}: ${error.message}`);
       });
-  }, []); // Run the effect whenever the location changes
-
-  // const handleLocationChange = (event) => {
-  //   setLocation(event.target.value);
-  // };
+  }, []);
 
   return (
     <div>
@@ -45,21 +56,6 @@ const IndianNews = () => {
           <div className="overlay"></div>
           <h2>Indian News</h2>
         </div>
-
-        {/* <div>
-          <label htmlFor="location">Select Location:</label>
-          <select
-            id="location"
-            value={location}
-            onChange={handleLocationChange}
-          >
-            <option value="">All</option>
-            <option value="kerala">Kerala</option>
-            <option value="Karnataka">Karnataka</option>
-            <option value="Mumbai">Mumbai</option>
-            <option value="Delhi">Delhi</option>
-          </select>
-        </div> */}
 
         <Grid container spacing={5} marginTop="1rem">
           {news.map((article, index) => (

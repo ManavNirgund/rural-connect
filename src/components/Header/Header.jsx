@@ -19,13 +19,14 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import { Link } from "react-router-dom";
 import ruralconnect from "../../assets/images/logo/svg/RuralConnect.svg";
 import axios from "axios";
-import { newsDropdown } from "../../assets/data/enums";
+import { CommunityDropdown, newsDropdown } from "../../assets/data/enums";
 import { CircularProgress } from "@mui/material";
 import "./Header.css";
 
 const NavBar = () => {
   const [showNav, setShowNav] = useState(false);
-  const [selectedItem, setSelectedItem] = useState("");
+  const [selectedItemNews, setSelectedItemNews] = useState("");
+  const [selectedItemCom, setSelectedItemCom] = useState("");
 
   const [isNotifyDisabled, setIsNotifyDisabled] = useState(true);
   const [isLogoutDisabled, setIsLogoutDisabled] = useState(true);
@@ -78,106 +79,147 @@ const NavBar = () => {
           <i className="fas fa-bars"></i>
         </MDBNavbarToggler>
         <MDBCollapse navbar show={showNav}>
-          <MDBNavbarNav className="justify-content-between w-100 flex-grow-1">
-            <MDBNavbarItem>
-              <MDBNavbarLink href="#" style={{ color: "black" }}>
-                Home
-              </MDBNavbarLink>
-            </MDBNavbarItem>
-            <MDBNavbarItem>
-              <MDBNavbarLink className="nav-link" style={{ color: "black" }}>
-                <Link to="/forecast" style={{ color: "black" }}>
-                  Weather
-                </Link>
-              </MDBNavbarLink>
-            </MDBNavbarItem>
-            <MDBNavbarItem>
-              {isNotifyDisabled ? (
-                <MDBNavbarLink
-                  href="#"
-                  onClick={notify}
-                  className="nav-link"
-                  style={{ color: "black" }}
-                >
-                  Notify
-                </MDBNavbarLink>
-              ) : (
-                <CircularProgress size={20} color="primary" />
-              )}
-            </MDBNavbarItem>
-            {/* News */}
-            <MDBNavbarItem>
-              <MDBDropdown>
-                <MDBDropdownToggle
-                  tag="a"
-                  className="nav-link"
-                  role="button"
-                  style={{ color: "black" }}
-                >
-                  {selectedItem ? selectedItem.name : "News"}
-                </MDBDropdownToggle>
-                <MDBDropdownMenu style={{ borderRadius: "5px" }}>
-                  {newsDropdown.map((item) => {
-                    return (
-                      <MDBDropdownItem
-                        key={item.id}
-                        style={{
-                          marginTop: "5px",
-                          marginLeft: "5px",
-                          marginRight: "5px",
-                          borderBottom: "1px solid gray",
-                        }}
-                        onClick={() => setSelectedItem(item)}
-                      >
-                        <Link to={item.to} style={{ color: "black" }}>
-                          {item.name}
-                        </Link>
-                      </MDBDropdownItem>
-                    );
-                  })}
-                </MDBDropdownMenu>
-              </MDBDropdown>
-            </MDBNavbarItem>
-            <MDBNavbarItem>
-              <MDBNavbarLink className="nav-link">
-                <Link to="/publish" style={{ color: "black" }}>
-                  Create
-                </Link>
-              </MDBNavbarLink>
-            </MDBNavbarItem>
-            <MDBNavbarItem></MDBNavbarItem>
-            <div className="flex-grow-1">
-              {isAuthenticated && (
+          <MDBNavbarNav className="w-100 flex-grow-1">
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <div style={{ display: "flex", flexDirection: "row" }}>
                 <MDBNavbarItem>
-                  <MDBBtn
-                    color="secondary"
-                    style={{ boxShadow: "none" }}
-                    onClick={logout}
-                  >
-                    <Link to="/login">Logout</Link>
-                  </MDBBtn>
+                  <MDBNavbarLink href="#" style={{ color: "black" }}>
+                    Home
+                  </MDBNavbarLink>
                 </MDBNavbarItem>
-              )}
-            </div>
-            {!isAuthenticated && (
-              <>
                 <MDBNavbarItem>
-                  <MDBBtn
-                    color="secondary"
-                    className="me-4"
-                    style={{ boxShadow: "none" }}
+                  <MDBNavbarLink
+                    className="nav-link"
+                    style={{ color: "black" }}
                   >
-                    <Link to="/login">Login</Link>
-                  </MDBBtn>
+                    <Link to="/forecast" style={{ color: "black" }}>
+                      Weather
+                    </Link>
+                  </MDBNavbarLink>
                 </MDBNavbarItem>
 
                 <MDBNavbarItem>
-                  <MDBBtn color="secondary" style={{ boxShadow: "none" }}>
-                    <Link to="/register">Register</Link>
-                  </MDBBtn>
+                  <MDBDropdown>
+                    <MDBDropdownToggle
+                      tag="a"
+                      className="nav-link"
+                      role="button"
+                      style={{ color: "black" }}
+                    >
+                      {selectedItemNews ? selectedItemNews.name : "News"}
+                    </MDBDropdownToggle>
+                    <MDBDropdownMenu style={{ borderRadius: "5px" }}>
+                      {newsDropdown.map((item) => {
+                        return (
+                          <MDBDropdownItem
+                            key={item.id}
+                            style={{
+                              marginTop: "5px",
+                              marginLeft: "5px",
+                              marginRight: "5px",
+                              borderBottom: "1px solid gray",
+                            }}
+                            onClick={() => setSelectedItemNews(item)}
+                          >
+                            <Link to={item.to} style={{ color: "black" }}>
+                              {item.name}
+                            </Link>
+                          </MDBDropdownItem>
+                        );
+                      })}
+                    </MDBDropdownMenu>
+                  </MDBDropdown>
                 </MDBNavbarItem>
-              </>
-            )}
+
+                <MDBNavbarItem>
+                  <MDBDropdown>
+                    <MDBDropdownToggle
+                      tag="a"
+                      className="nav-link"
+                      role="button"
+                      style={{ color: "black" }}
+                    >
+                      {selectedItemCom ? selectedItemCom.name : "Community"}
+                    </MDBDropdownToggle>
+                    <MDBDropdownMenu>
+                    {CommunityDropdown.map((item) => {
+                      return (
+                        <MDBDropdownItem
+                            key={item.id}
+                            style={{
+                              marginTop: "5px",
+                              marginLeft: "5px",
+                              marginRight: "5px",
+                              borderBottom: "1px solid gray",
+                            }}
+                            onClick={() => setSelectedItemCom(item)}
+                          >
+                            <Link to={item.to} style={{ color: "black" }}>
+                              {item.name}
+                            </Link>
+                          </MDBDropdownItem>
+                      )
+                    })}
+                    </MDBDropdownMenu>
+                  </MDBDropdown>
+                </MDBNavbarItem>
+                <MDBNavbarItem>
+                  {isNotifyDisabled ? (
+                    <MDBNavbarLink
+                      href="#"
+                      onClick={notify}
+                      className="nav-link"
+                      style={{ color: "black" }}
+                    >
+                      Notify
+                    </MDBNavbarLink>
+                  ) : (
+                    <CircularProgress size={20} color="primary" />
+                  )}
+                </MDBNavbarItem>
+              </div>
+              <div>
+                <MDBNavbarItem>
+                  <div className="d-flex">
+                    {isAuthenticated && (
+                      <MDBBtn
+                        color="secondary"
+                        style={{ boxShadow: "none" }}
+                        onClick={logout}
+                      >
+                        <Link to="/login" style={{ color: "black" }}>
+                          Logout
+                        </Link>
+                      </MDBBtn>
+                    )}
+                    {!isAuthenticated && (
+                      <>
+                        <MDBBtn
+                          color="secondary"
+                          className="me-4"
+                          style={{ boxShadow: "none" }}
+                        >
+                          <Link to="/login" style={{ color: "black" }}>
+                            Login
+                          </Link>
+                        </MDBBtn>
+                        <MDBBtn color="secondary" style={{ boxShadow: "none" }}>
+                          <Link to="/register" style={{ color: "white" }}>
+                            Register
+                          </Link>
+                        </MDBBtn>
+                      </>
+                    )}
+                  </div>
+                </MDBNavbarItem>
+              </div>
+            </div>
           </MDBNavbarNav>
         </MDBCollapse>
       </MDBContainer>

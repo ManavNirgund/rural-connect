@@ -13,6 +13,7 @@ import News from "./components/News/News";
 import IndianNews from "./components/News/IndianNews";
 import { ToastContainer } from "react-toastify";
 import ContentWriter from "./components/ContentWriter/ContentWriter";
+import Feed from "./components/ContentWriter/Feed";
 
 function App() {
   return (
@@ -64,6 +65,16 @@ function App() {
             <RequireAuth>
               {" "}
               <ContentWriter />{" "}
+            </RequireAuth>
+          }
+        />
+
+        <Route
+          path="/feed"
+          element={
+            <RequireAuth>
+              {" "}
+              <Feed />{" "}
             </RequireAuth>
           }
         />
