@@ -12,6 +12,7 @@ import WeatherAppFooter from "./components/Footer/Footer";
 import News from "./components/News/News";
 import IndianNews from "./components/News/IndianNews";
 import { ToastContainer } from "react-toastify";
+import ContentWriter from "./components/ContentWriter/ContentWriter";
 
 function App() {
   return (
@@ -54,6 +55,15 @@ function App() {
             <RequireAuth>
               {" "}
               <IndianNews />{" "}
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/publish"
+          element={
+            <RequireAuth>
+              {" "}
+              <ContentWriter />{" "}
             </RequireAuth>
           }
         />
