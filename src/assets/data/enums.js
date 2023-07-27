@@ -41,3 +41,8 @@ export const locations = [
   { country: "India", city: "Bengaluru" },
   { country: "India", city: "Hubli" },
 ];
+
+export const CommunityDropdown = [
+  {id: 1, name: "Create", to: "/publish"},
+  {id: 2, name: "Feed", to: "/feed"},
+]

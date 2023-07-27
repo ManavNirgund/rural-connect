@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 const ContentWriter = () => {
   const [content, setContent] = useState("");
   const [userData, setUserData] = useState(null);
+
   useEffect(() => {
     const userid = localStorage.getItem("email");
 
@@ -23,17 +24,26 @@ const ContentWriter = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
     const userid = localStorage.getItem("email");
+
+    const postData = {
+      title: "This is title",
+      content: content,
+      author: userData,
+      publishedDate: "2023-07-25T12:34:56",
+    };
+
+    const queryString = new URLSearchParams({
+      userid: "snehaapramod@gmail.com",
+      pwd: "123456",
+    }).toString();
+
     axios
-      .post(
-        `http://localhost:8080/create-article?userid=${userid}&pwd=123456`,
-        {
-          content: content,
-          author: userData,
-          publishedDate: new Date().toISOString().slice(0, 10),
-        }
-      )
+      .post(`http://localhost:8080/create-article?${queryString}`, postData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
       .then((res) => {
         console.log(`${res.data}`);
       });
