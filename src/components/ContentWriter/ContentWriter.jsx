@@ -40,6 +40,9 @@ const ContentWriter = () => {
         .post(`http://localhost:8080/create-article/${userid}`, postData)
         .then((res) => {
           console.log(postData);
+        })
+        .catch((error) => {
+          alert(`${error.name}: ${error.message}`);
         });
     },
   });

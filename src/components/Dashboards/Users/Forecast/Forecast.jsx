@@ -16,11 +16,11 @@ import { useFormik } from "formik";
 import React, { useState } from "react";
 
 const Forecast = () => {
-  const [isForecasrSelected, setIsForecastSelected] = useState(true);
-  const [isWeatherNowSelected, setWeatherNowSelected] = useState(false);
+  // const [isForecasrSelected, setIsForecastSelected] = useState(true);
+  const [isWeatherNowSelected, setWeatherNowSelected] = useState(true);
   const [isWeatherWeeklySelected, setIsWeatherWeeklySelected] = useState(false);
 
-  const [forecastData, setForecastData] = useState(null);
+  // const [forecastData, setForecastData] = useState(null);
   const [weatherNowData, setWeatherNowData] = useState(null);
   const [weeklyWeatherData, setWeeklyWeatherData] = useState(null);
 
@@ -29,26 +29,26 @@ const Forecast = () => {
     country: "",
   };
 
-  const forecastFormik = useFormik({
-    initialValues: initialValues,
-    onSubmit: (values) => {
-      axios
-        .get(`http://localhost:8080/forecast`, {
-          params: {
-            country: values.country,
-            city: values.city,
-          },
-        })
-        .then((res) => {
-          console.log(res.data.entries);
-          setForecastData(res.data.entries);
-        })
-        .catch((err) => {
-          console.log(err);
-          alert(err.res);
-        });
-    },
-  });
+  // const forecastFormik = useFormik({
+  //   initialValues: initialValues,
+  //   onSubmit: (values) => {
+  //     axios
+  //       .get(`http://localhost:8080/forecast`, {
+  //         params: {
+  //           country: values.country,
+  //           city: values.city,
+  //         },
+  //       })
+  //       .then((res) => {
+  //         console.log(res.data.entries);
+  //         setForecastData(res.data.entries);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //         alert(err.res);
+  //       });
+  //   },
+  // });
 
   const weatherNowFormik = useFormik({
     initialValues: initialValues,
@@ -107,12 +107,14 @@ const Forecast = () => {
       }}
     >
       <div>
-        <Button
+        {/* <Button
           variant={isForecasrSelected === true ? "contained" : "outlined"}
           onClick={() => {
             setIsForecastSelected(true);
             setIsWeatherWeeklySelected(false);
             setWeatherNowSelected(false);
+            setWeatherNowData(null);
+            setWeeklyWeatherData(null);
           }}
           sx={{
             border: "2px solid #870040",
@@ -129,13 +131,15 @@ const Forecast = () => {
           }}
         >
           Forecast
-        </Button>
+        </Button> */}
         <Button
           variant={isWeatherNowSelected === true ? "contained" : "outlined"}
           onClick={() => {
-            setIsForecastSelected(false);
+            // setIsForecastSelected(false);
             setIsWeatherWeeklySelected(false);
             setWeatherNowSelected(true);
+            // setForecastData(null);
+            setWeeklyWeatherData(null);
           }}
           sx={{
             border: "2px solid #870040",
@@ -156,9 +160,11 @@ const Forecast = () => {
         <Button
           variant={isWeatherWeeklySelected === true ? "contained" : "outlined"}
           onClick={() => {
-            setIsForecastSelected(false);
+            // setIsForecastSelected(false);
             setIsWeatherWeeklySelected(true);
             setWeatherNowSelected(false);
+            // setForecastData(null);
+            setWeatherNowData(null);
           }}
           sx={{
             border: "2px solid #870040",
@@ -178,7 +184,7 @@ const Forecast = () => {
         </Button>
       </div>
 
-      {isForecasrSelected && (
+      {/* {isForecasrSelected && (
         <Container
           maxWidth="sm"
           sx={{
@@ -263,7 +269,7 @@ const Forecast = () => {
             </Grid>
           </Box>
         </Container>
-      )}
+      )} */}
 
       {isWeatherNowSelected && (
         <Container
@@ -424,7 +430,7 @@ const Forecast = () => {
                   variant="outlined"
                   fullWidth
                   color="error"
-                  onClick={() => setIsForecastSelected(false)}
+                  onClick={() => setIsWeatherWeeklySelected(false)}
                   sx={{
                     display: "flex",
                     alignSelf: "center",
@@ -439,7 +445,7 @@ const Forecast = () => {
         </Container>
       )}
 
-      {forecastData && (
+      {/* {forecastData && (
         <div style={{ display: "flex", justifyContent: "center" }}>
           <Table sx={tableStyle}>
             <TableHead>
@@ -475,7 +481,7 @@ const Forecast = () => {
             })}
           </Table>
         </div>
-      )}
+      )} */}
 
       {weatherNowData && (
         <Table>
@@ -509,26 +515,35 @@ const Forecast = () => {
             <TableHead>
               <TableRow>
                 <TableCell sx={headerCellStyle}>Date</TableCell>
+                <TableCell sx={headerCellStyle}>Time</TableCell>
                 <TableCell sx={headerCellStyle}>Temperature</TableCell>
                 <TableCell sx={headerCellStyle}>Climate</TableCell>
               </TableRow>
             </TableHead>
-            {weeklyWeatherData.map((item, index) => (
-              <TableBody key={index}>
-                <TableRow>
-                  <TableCell sx={cellStyle}>{item.date}</TableCell>
-                  <TableCell sx={cellStyle}>
-                    {item.celsiusTemperature}
-                  </TableCell>
-                  <TableCell sx={cellStyle}>
-                    {item.description}{" "}
-                    <img
-                      src={`http://openweathermap.org/img/w/${item.weatherIcon}.png`}
-                    />{" "}
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            ))}
+
+            {weeklyWeatherData.map((item, index) => {
+              const dateObj = new Date(item.date);
+              const localTime = dateObj.toLocaleString();
+              const [date, time] = localTime.split(", ");
+
+              return (
+                <TableBody key={index}>
+                  <TableRow>
+                    <TableCell sx={cellStyle}>{date}</TableCell>
+                    <TableCell sx={cellStyle}>{time}</TableCell>
+                    <TableCell sx={cellStyle}>
+                      {item.celsiusTemperature}
+                    </TableCell>
+                    <TableCell sx={cellStyle}>
+                      {item.description}{" "}
+                      <img
+                        src={`http://openweathermap.org/img/w/${item.weatherIcon}.png`}
+                      />{" "}
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              );
+            })}
           </Table>
         </div>
       )}
