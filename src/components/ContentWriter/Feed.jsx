@@ -24,27 +24,72 @@ const Feed = () => {
       {/* Conditional rendering to show articles or a message */}
       {userData.length > 0 ? (
         <Grid container spacing={4}>
-          {userData.map((user) => (
-            <React.Fragment key={user.userid}>
-              {user.articles.length > 0 && (
-                user.articles.map((article) => (
-                  <Grid item key={article.id} xs={12} sm={6}>
-                    <Card
-                      variant="outlined"
-                      sx={{ backgroundColor: "#ececec", p: 2, height: "100%" }}
-                    >
-                      <Typography variant="h6">{user.uname}</Typography>
-                      <Typography variant="h6">{article.title}</Typography>
-                      <Typography>{article.content}</Typography>
-                      <Typography>
-                        Published on: {article.publishedDate}
-                      </Typography>
-                    </Card>
-                  </Grid>
-                ))
-              )}
-            </React.Fragment>
-          ))}
+          {userData.map((user) => {
+            return (
+              <React.Fragment key={user.userid}>
+                {user.articles.length > 0 &&
+                  user.articles.map((article) => {
+                    const dateObj = new Date(article.publishedDate);
+
+                    const options = {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    };
+                    const longDate = dateObj.toLocaleDateString(
+                      undefined,
+                      options
+                    );
+
+                    console.log(longDate);
+
+                    return (
+                      <Grid item key={article.id} xs={12} sm={6}>
+                        <Card
+                          variant="outlined"
+                          sx={{
+                            backgroundColor: "#ececec",
+                            p: 2,
+                            height: "100%",
+                          }}
+                        >
+                          <Typography
+                            variant="h6"
+                            fontWeight="bold"
+                            marginBottom="0.5rem"
+                          >
+                            {article.title}
+                          </Typography>
+                          <Typography
+                            variant="body"
+                            textAlign="left"
+                            marginBottom="0.5rem"
+                          >
+                            {article.content}
+                          </Typography>
+                          <Typography
+                            variant="subtitle1"
+                            textAlign="left"
+                            fontWeight="bold"
+                            marginBottom="0.5rem"
+                          >
+                            {user.uname}
+                          </Typography>
+                          <Typography
+                            variant="subtitle1"
+                            textAlign="left"
+                            fontWeight="bold"
+                            marginBottom="0.5rem"
+                          >
+                            {longDate}
+                          </Typography>
+                        </Card>
+                      </Grid>
+                    );
+                  })}
+              </React.Fragment>
+            );
+          })}
         </Grid>
       ) : (
         <Grid item xs={12}>
