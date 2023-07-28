@@ -30,7 +30,7 @@ const NavBar = () => {
   const [selectedItemCom, setSelectedItemCom] = useState("");
 
   const [isNotifyDisabled, setIsNotifyDisabled] = useState(true);
-  const [isLogoutDisabled, setIsLogoutDisabled] = useState(true);
+  const [isLogoutDisabled, setIsLogoutDisabled] = useState(false);
 
   const [bonusPoints, setBonusPoints] = useState("");
 
@@ -201,6 +201,7 @@ const NavBar = () => {
                   <MDBBtn
                     color="secondary"
                     style={{ boxShadow: "none" }}
+                    disabled={isLogoutDisabled}
                     onClick={logout}
                   >
                     <Link to="/login" style={{ color: "black" }}>

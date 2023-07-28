@@ -1,13 +1,22 @@
-import { Box, Container, Grid, TextField, Typography, Button } from "@mui/material";
+import {
+  Box,
+  Container,
+  Grid,
+  TextField,
+  Typography,
+  Button,
+} from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/images/logo/png/logo-no-background.png";
+import { toast } from "react-toastify";
 
 const ContentWriter = () => {
   const [content, setContent] = useState("");
   const [userData, setUserData] = useState(null);
+  const [isPublishDisabled, setIsPublishDisabled] = useState(false);
 
   useEffect(() => {
     const userid = localStorage.getItem("email");
@@ -35,11 +44,14 @@ const ContentWriter = () => {
         author: userData,
         publishedDate: "2023-07-25T12:34:56",
       };
-
+      setIsPublishDisabled(true);
       axios
         .post(`http://localhost:8080/create-article/${userid}`, postData)
         .then((res) => {
           console.log(postData);
+          toast.success("Article pblished!");
+          setIsPublishDisabled(false);
+          formik.resetForm();
         })
         .catch((error) => {
           alert(`${error.name}: ${error.message}`);
@@ -87,7 +99,7 @@ const ContentWriter = () => {
           sx={{ color: "GrayText" }}
           align="center"
         >
-          Login
+          Post content
         </Typography>
         <Grid
           container
@@ -125,19 +137,20 @@ const ContentWriter = () => {
               onBlur={formik.handleBlur}
             />
           </Grid>
-          
+
           <Grid item xs={12}>
             <Button
               variant="contained"
               fullWidth
               type="submit"
               color="primary"
+              disabled={isPublishDisabled}
               sx={{
                 display: "flex",
                 marginBottom: "1rem",
               }}
             >
-              Login
+              Publish
             </Button>
           </Grid>
         </Grid>
