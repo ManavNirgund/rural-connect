@@ -1,4 +1,4 @@
-import { Card, Grid, Typography } from "@mui/material";
+import { Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -26,7 +26,7 @@ const Feed = () => {
         <Grid container spacing={4}>
           {userData.map((user) => (
             <React.Fragment key={user.userid}>
-              {user.articles.length > 0 ? (
+              {user.articles.length > 0 && (
                 user.articles.map((article) => (
                   <Grid item key={article.id} xs={12} sm={6}>
                     <Card
@@ -42,16 +42,6 @@ const Feed = () => {
                     </Card>
                   </Grid>
                 ))
-              ) : (
-                <Grid item xs={12} sm={6}>
-                  <Card
-                    variant="outlined"
-                    sx={{ backgroundColor: "#ececec", p: 2, height: "100%" }}
-                  >
-                    <Typography variant="h6">{user.uname}</Typography>
-                    <Typography variant="body1">No articles to display.</Typography>
-                  </Card>
-                </Grid>
               )}
             </React.Fragment>
           ))}
