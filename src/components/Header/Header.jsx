@@ -17,11 +17,14 @@ import {
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { Link } from "react-router-dom";
-import ruralconnect from "../../assets/images/logo/svg/RuralConnect.svg";
 import axios from "axios";
 import { CommunityDropdown, newsDropdown } from "../../assets/data/enums";
 import { CircularProgress, Typography } from "@mui/material";
 import "./Header.css";
+
+import ruralconnect from "../../assets/images/logo/svg/RuralConnect.svg";
+import award from "../../assets/images/award.svg";
+import trophy from "../../assets/images/trophy.gif";
 
 const NavBar = () => {
   const [showNav, setShowNav] = useState(false);
@@ -105,7 +108,7 @@ const NavBar = () => {
           <i className="fas fa-bars"></i>
         </MDBNavbarToggler>
         <MDBCollapse navbar show={showNav}>
-          <MDBNavbarNav className="w-100 flex-grow-1 justify-content">
+          <MDBNavbarNav className="w-100 flex-grow-1 align-items-center">
             <MDBNavbarItem>
               <MDBNavbarLink href="#">
                 <Link to="/" style={{ color: "black" }}>
@@ -216,12 +219,34 @@ const NavBar = () => {
               )}
             </MDBNavbarItem>
             {isAuthenticated && (
-              <MDBNavbarItem className="rainbow-border">
-                <Typography
-                  variant="h6"
-                  color="black"
-                >{`Points ${bonusPoints}`}</Typography>
-              </MDBNavbarItem>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  maxWidth: "fit-content",
+                  marginLeft: "2vw",
+                }}
+                className="rainbow-border"
+              >
+                <img
+                  src={trophy}
+                  style={{ marginLeft: "1vw", marginRight: "1vw" }}
+                  alt="Points: "
+                  height="50px"
+                />
+                <Typography variant="h6" fontWeight="bold" marginRight="1vw" color="gold"> = </Typography>
+                <MDBNavbarItem>
+                  <Typography
+                    variant="h6"
+                    color="gold"
+                    fontWeight="bold"
+                    sx={{
+                      marginRight: "1vw",
+                    }}
+                  >{`${bonusPoints}`}</Typography>
+                </MDBNavbarItem>
+              </div>
             )}
           </MDBNavbarNav>
           <MDBNavbarNav className="justify-content-center">

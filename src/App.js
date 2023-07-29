@@ -1,19 +1,19 @@
 import "./App.css";
-import Register from "./components/Auhtentication/Register/Register";
-import Login from "./components/Auhtentication/Login/Login";
+import Register from "./components/Authentication/Register/Register";
+import Login from "./components/Authentication/Login/Login";
 import { Routes, Route } from "react-router-dom";
 import AdminDashboard from "./components/Dashboards/Admin/AdminDashboard";
 import Header from "./components/Header/Header";
-import Private from "./components/Auhtentication/Login/Private";
+import Private from "./components/Authentication/Login/Private";
 import Forecast from "./components/Dashboards/Users/Forecast/Forecast";
-import RequireAuth from "./components/Auhtentication/Login/RequireAuth";
+import RequireAuth from "./components/Authentication/Login/RequireAuth";
 import LandingPage from "./components/LandingPage/LandingPage";
 import WeatherAppFooter from "./components/Footer/Footer";
 import News from "./components/News/News";
 import IndianNews from "./components/News/IndianNews";
 import { ToastContainer } from "react-toastify";
-import ContentWriter from "./components/ContentWriter/ContentWriter";
-import Feed from "./components/ContentWriter/Feed";
+import ContentWriter from "./components/Content/ContentWriter";
+import Feed from "./components/Content/Feed";
 
 function App() {
   return (
