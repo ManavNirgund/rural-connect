@@ -1,3 +1,25 @@
 .custom-navbar-toggler {
     color: #333366;
 }
+
+.center-dropdown {
+    transform: translateX(35vw) translateY(25px) !important;
+}
+
+/* RainbowBorder.css */
+/* RainbowBorderRadius.css */
+@keyframes rainbow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+  }
+  
+  .rainbow-border {
+    /* max-width: fit-content; */
+    width: fit-content;
+    border-radius: 15px;
+    border: 2px solid transparent;
+    border-image: linear-gradient(45deg, violet, indigo, blue, green, yellow, orange, red);
+    border-image-slice: 1;
+    animation: rainbow 5s linear infinite;
+  }
+  

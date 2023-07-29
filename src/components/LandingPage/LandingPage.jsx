@@ -85,7 +85,15 @@ const LandingPage = () => {
               {!data ? (
                 <>Loading...</>
               ) : (
-                <Paper>
+                <Paper
+                sx={{
+                  paddingTop:"8px",
+                  height:'auto',
+                  maxHeight:'fit-content',
+                  // overflowY:'scroll',
+                  // boxShadow:[theme.shadows[7], theme.shadows[9]],
+                  backgroundColor: "rgb(200, 200, 200)"
+                }}>
                   <Card
                     component={Link}
                     sx={{

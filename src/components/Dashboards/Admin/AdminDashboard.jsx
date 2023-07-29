@@ -23,6 +23,7 @@ const Dashboard = () => {
     setIsWeatherByCountryAndCitySelected,
   ] = useState(false);
   const [weatherData, setWeatherData] = useState(null);
+  const [name, setName] = useState("");
   const weatherTable = useRef();
 
   useEffect(() => {
@@ -33,6 +34,17 @@ const Dashboard = () => {
       })
 
       .catch((err) => console.error(err));
+  }, []);
+
+  useEffect(() => {
+    const userid = localStorage.getItem("email");
+    console.log(userid);
+    if (userid != null) {
+      axios.get(`http://localhost:8080/users/${userid}`).then((res) => {
+        console.log(res.data);
+        setName(res.data.uname);
+      });
+    }
   }, []);
 
   const formik = useFormik({
@@ -136,28 +148,39 @@ const Dashboard = () => {
       </div>
 
       {isAllUsersSelected && (
-        <Table sx={tableStyle}>
-          <TableHead>
-            <TableRow>
-              <TableCell sx={headerCellStyle}>User ID</TableCell>
-              <TableCell sx={headerCellStyle}>User Name</TableCell>
-              <TableCell sx={headerCellStyle}>City</TableCell>
-              <TableCell sx={headerCellStyle}>Country</TableCell>
-              <TableCell sx={headerCellStyle}>Weather</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {userData.map((data) => (
-              <TableRow key={data.userid}>
-                <TableCell sx={cellStyle}>{data.userid}</TableCell>
-                <TableCell sx={cellStyle}>{data.uname}</TableCell>
-                <TableCell sx={cellStyle}>{data.city}</TableCell>
-                <TableCell sx={cellStyle}>{data.country}</TableCell>
-                <TableCell sx={cellStyle}>{data.weather}</TableCell>
+        <div>
+          <Typography
+            variant="h4"
+            sx={{
+              marginTop: "1rem",
+              marginBottom: "1rem",
+            }}
+          >
+            {`Welcome ${name}! Here is a list of all our users:`}
+          </Typography>
+          <Table sx={tableStyle}>
+            <TableHead>
+              <TableRow>
+                <TableCell sx={headerCellStyle}>User ID</TableCell>
+                <TableCell sx={headerCellStyle}>User Name</TableCell>
+                <TableCell sx={headerCellStyle}>City</TableCell>
+                <TableCell sx={headerCellStyle}>Country</TableCell>
+                <TableCell sx={headerCellStyle}>Weather</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+            <TableBody>
+              {userData.map((data) => (
+                <TableRow key={data.userid}>
+                  <TableCell sx={cellStyle}>{data.userid}</TableCell>
+                  <TableCell sx={cellStyle}>{data.uname}</TableCell>
+                  <TableCell sx={cellStyle}>{data.city}</TableCell>
+                  <TableCell sx={cellStyle}>{data.country}</TableCell>
+                  <TableCell sx={cellStyle}>{data.weather}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       )}
 
       {isWeatherByCountryAndCitySelected && (
@@ -220,18 +243,18 @@ const Dashboard = () => {
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                  <Button
-                    variant="contained"
-                    type="submit"
-                    fullWidth
-                    sx={{
-                      display: "flex",
-                      alignSelf: "center",
-                      marginBottom: "1rem",
-                    }}
-                  >
-                    Get Data
-                  </Button>
+                <Button
+                  variant="contained"
+                  type="submit"
+                  fullWidth
+                  sx={{
+                    display: "flex",
+                    alignSelf: "center",
+                    marginBottom: "1rem",
+                  }}
+                >
+                  Get Data
+                </Button>
               </Grid>
               <Grid item xs={12} sm={6}>
                 <Button

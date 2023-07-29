@@ -22,7 +22,6 @@ import axios from "axios";
 import { CommunityDropdown, newsDropdown } from "../../assets/data/enums";
 import { CircularProgress, Typography } from "@mui/material";
 import "./Header.css";
-import { ConstructionOutlined } from "@mui/icons-material";
 
 const NavBar = () => {
   const [showNav, setShowNav] = useState(false);
@@ -30,8 +29,9 @@ const NavBar = () => {
   const [selectedItemCom, setSelectedItemCom] = useState("");
 
   const [isNotifyDisabled, setIsNotifyDisabled] = useState(true);
-  const [isLogoutDisabled, setIsLogoutDisabled] = useState(false);
+  const [isLogoutDisabled, setIsLogoutDisabled] = useState(true);
 
+  const [name, setName] = useState("");
   const [bonusPoints, setBonusPoints] = useState("");
 
   const isAuthenticated = JSON.parse(localStorage.getItem("isAuthenticated"));
@@ -42,10 +42,15 @@ const NavBar = () => {
 
   useEffect(() => {
     const userid = localStorage.getItem("email");
-    axios.get(`http://localhost:8080/users/${userid}`).then((res) => {
-      console.log(res.data);
-      setBonusPoints(res.data.bonus_points);
-    });
+    setIsLogoutDisabled(true);
+    console.log(userid);
+    if (userid != null) {
+      axios.get(`http://localhost:8080/users/${userid}`).then((res) => {
+        console.log(res.data);
+        setName(res.data.uname);
+        setBonusPoints(res.data.bonus_points);
+      });
+    }
   }, []);
 
   const notify = () => {
@@ -67,10 +72,20 @@ const NavBar = () => {
 
   const logout = () => {
     localStorage.setItem("isAuthenticated", false);
-    axios.get("http://localhost:8080/logout").then((res) => {
-      console.log(res.data);
-      console.log(`logged out: ${isAuthenticated}`);
-    });
+    localStorage.removeItem("email");
+    setIsLogoutDisabled(false);
+    axios
+      .get("http://localhost:8080/logout")
+      .then((res) => {
+        console.log(res.data);
+        console.log(`logged out: ${isAuthenticated}`);
+        setShowNav(false);
+        setIsLogoutDisabled(true);
+      })
+      .catch((err) => {
+        alert(`${err.name}: ${err.message}`);
+        setIsLogoutDisabled(true);
+      });
   };
 
   return (
@@ -116,7 +131,12 @@ const NavBar = () => {
                 >
                   {selectedItemNews ? selectedItemNews.name : "News"}
                 </MDBDropdownToggle>
-                <MDBDropdownMenu style={{ borderRadius: "5px" }}>
+                <MDBDropdownMenu
+                  style={{
+                    borderRadius: "5px",
+                  }}
+                  className={showNav ? "center-dropdown" : ""}
+                >
                   {newsDropdown.map((item) => {
                     return (
                       <MDBDropdownItem
@@ -149,7 +169,12 @@ const NavBar = () => {
                 >
                   {selectedItemCom ? selectedItemCom.name : "Community"}
                 </MDBDropdownToggle>
-                <MDBDropdownMenu>
+                <MDBDropdownMenu
+                  style={{
+                    borderRadius: "5px",
+                  }}
+                  className={showNav ? "center-dropdown" : ""}
+                >
                   {CommunityDropdown.map((item) => {
                     return (
                       <MDBDropdownItem
@@ -162,7 +187,11 @@ const NavBar = () => {
                         }}
                         onClick={() => setSelectedItemCom(item)}
                       >
-                        <Link to={item.to} style={{ color: "black" }}>
+                        <Link
+                          to={item.to}
+                          style={{ color: "black" }}
+                          onClick={() => setShowNav(false)}
+                        >
                           {item.name}
                         </Link>
                       </MDBDropdownItem>
@@ -178,6 +207,7 @@ const NavBar = () => {
                   onClick={notify}
                   className="nav-link"
                   style={{ color: "black" }}
+                  disabled={isNotifyDisabled}
                 >
                   Notify
                 </MDBNavbarLink>
@@ -185,30 +215,18 @@ const NavBar = () => {
                 <CircularProgress size={20} color="primary" />
               )}
             </MDBNavbarItem>
-            <MDBNavbarItem>
-              {bonusPoints && (
+            {isAuthenticated && (
+              <MDBNavbarItem className="rainbow-border">
                 <Typography
                   variant="h6"
                   color="black"
                 >{`Points ${bonusPoints}`}</Typography>
-              )}
-            </MDBNavbarItem>
+              </MDBNavbarItem>
+            )}
           </MDBNavbarNav>
           <MDBNavbarNav className="justify-content-center">
             <MDBNavbarItem>
               <div className="d-flex">
-                {isAuthenticated && (
-                  <MDBBtn
-                    color="secondary"
-                    style={{ boxShadow: "none" }}
-                    disabled={isLogoutDisabled}
-                    onClick={logout}
-                  >
-                    <Link to="/login" style={{ color: "black" }}>
-                      Logout
-                    </Link>
-                  </MDBBtn>
-                )}
                 {!isAuthenticated && (
                   <>
                     <MDBBtn
@@ -216,16 +234,40 @@ const NavBar = () => {
                       className="me-4"
                       style={{ boxShadow: "none" }}
                     >
-                      <Link to="/login" style={{ color: "black" }}>
+                      <Link
+                        to="/login"
+                        style={{ color: "black" }}
+                        onClick={() => setShowNav(false)}
+                      >
                         Login
                       </Link>
                     </MDBBtn>
                     <MDBBtn color="secondary" style={{ boxShadow: "none" }}>
-                      <Link to="/register" style={{ color: "black" }}>
+                      <Link
+                        to="/register"
+                        style={{ color: "black" }}
+                        onClick={() => setShowNav(false)}
+                      >
                         Register
                       </Link>
                     </MDBBtn>
                   </>
+                )}
+
+                {isAuthenticated && (
+                  <MDBBtn
+                    color="secondary"
+                    style={{ boxShadow: "none" }}
+                    onClick={logout}
+                  >
+                    {isLogoutDisabled ? (
+                      <Link to="/login" style={{ color: "black" }}>
+                        Logout
+                      </Link>
+                    ) : (
+                      <CircularProgress />
+                    )}
+                  </MDBBtn>
                 )}
               </div>
             </MDBNavbarItem>
