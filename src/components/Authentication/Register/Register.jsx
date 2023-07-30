@@ -11,6 +11,7 @@ import { useFormik } from "formik";
 import logo from "../../../assets/images/logo/png/logo-no-background.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import login from "../../../assets/images/cartoon-giffs/Auth/Tablet-login.gif";
 
 const Register = () => {
   const nav = useNavigate();
@@ -48,137 +49,161 @@ const Register = () => {
   });
 
   return (
-    <Container
-      maxWidth="sm"
-      sx={{
-        marginBottom: "3rem",
-        marginTop: "3rem",
-        height: "70%",
-        width: "455.75px",
-        backgroundColor: "#ececec",
-        boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.75)",
-      }}
+    <Box
+      display="flex"
+      flexDirection={{ xs: "column-reverse", sm: "row" }}
+      justifyContent="space-between"
     >
-      <Box
-        component="form"
-        noValidate
-        className="mt-5 p-5 pt-5"
-        onSubmit={formik.handleSubmit}
+      {/* Login image */}
+      <img
+        src={login}
+        alt="login"
+        height={{ xs: "100vh", sm: "auto" }}
+        style={{ marginLeft: "5rem", alignSelf: "center" }}
+      />
+
+      {/* Login form */}
+      <Container
+        maxWidth="sm"
+        sx={{
+          marginBottom: "3rem",
+          marginTop: "3rem",
+          height: "70%",
+          backgroundColor: "#ececec",
+          boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.75)",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
       >
-        <img src={logo} width="400vw" style={{ marginTop: "2rem" }} />
-        <Typography
-          variant="h4"
-          marginTop="3rem"
-          sx={{ color: "GrayText" }}
-          align="center"
-        >
-          Register
-        </Typography>
-        <Grid
-          container
-          spacing={2}
-          className="mt-4"
+        <Box
+          component="form"
+          noValidate
+          className=""
+          onSubmit={formik.handleSubmit}
           sx={{
-            marginTop: "1rem",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              variant="outlined"
-              id="uname"
-              name="uname"
-              label="User Name"
-              value={formik.values.uname}
-              onChange={formik.handleChange}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              variant="outlined"
-              id="userid"
-              name="userid"
-              label="User ID"
-              value={formik.values.userid}
-              onChange={formik.handleChange}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              variant="outlined"
-              id="country"
-              name="country"
-              label="Country"
-              value={formik.values.country}
-              onChange={formik.handleChange}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              variant="outlined"
-              id="city"
-              name="city"
-              label="City"
-              value={formik.values.city}
-              onChange={formik.handleChange}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              variant="outlined"
-              id="pwd"
-              name="pwd"
-              label="Password"
-              type="password"
-              value={formik.values.pwd}
-              onChange={formik.handleChange}
-            />
-          </Grid>
-          <Grid item xs={12} sm={4} />
-          <Grid item xs={12} sm={4} display="flex">
-            <Button
-              variant="contained"
-              type="submit"
-              fullWidth
-              sx={{
-                display: "flex",
-                alignSelf: "center",
-                marginBottom: "1rem",
-              }}
-            >
-              Register
-            </Button>
-          </Grid>
+          <img src={logo} width="400vw" style={{ marginTop: "2rem" }} />
+          <Typography
+            variant="h4"
+            marginTop="3rem"
+            sx={{ color: "GrayText" }}
+            align="center"
+          >
+            Register
+          </Typography>
           <Grid
-            item
-            xs={12}
+            container
+            spacing={2}
+            className="mt-4"
             sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              marginTop: "1rem",
             }}
           >
-            <Typography>Don't have an account?</Typography>
-            <Button
-              variant="link"
-              component={Link}
-              to={"/login"}
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                variant="outlined"
+                id="uname"
+                name="uname"
+                label="User Name"
+                value={formik.values.uname}
+                onChange={formik.handleChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                variant="outlined"
+                id="userid"
+                name="userid"
+                label="User ID"
+                value={formik.values.userid}
+                onChange={formik.handleChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                variant="outlined"
+                id="country"
+                name="country"
+                label="Country"
+                value={formik.values.country}
+                onChange={formik.handleChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                variant="outlined"
+                id="city"
+                name="city"
+                label="City"
+                value={formik.values.city}
+                onChange={formik.handleChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                variant="outlined"
+                id="pwd"
+                name="pwd"
+                label="Password"
+                type="password"
+                value={formik.values.pwd}
+                onChange={formik.handleChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4} />
+            <Grid item xs={12} sm={4} display="flex">
+              <Button
+                variant="contained"
+                type="submit"
+                fullWidth
+                sx={{
+                  display: "flex",
+                  alignSelf: "center",
+                  marginBottom: "1rem",
+                }}
+              >
+                Register
+              </Button>
+            </Grid>
+            <Grid
+              item
+              xs={12}
               sx={{
-                fontWeight: "bolder",
-                textDecoration: "none",
-                color: "blue",
+                marginTop: "-2rem",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
-              Login
-            </Button>
+              <Typography>Don't have an account?</Typography>
+              <Button
+                variant="link"
+                component={Link}
+                to={"/login"}
+                sx={{
+                  fontWeight: "bolder",
+                  textDecoration: "none",
+                  color: "blue",
+                }}
+              >
+                Login
+              </Button>
+            </Grid>
           </Grid>
-        </Grid>
-      </Box>
-    </Container>
+        </Box>
+      </Container>
+    </Box>
   );
 };
 
