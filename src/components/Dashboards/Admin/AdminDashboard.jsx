@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
+import { toast } from "react-toastify";
 
 const Dashboard = () => {
   const [userData, setUserData] = useState([]);
@@ -24,6 +25,8 @@ const Dashboard = () => {
   ] = useState(false);
   const [weatherData, setWeatherData] = useState(null);
   const [name, setName] = useState("");
+  const [isNotifyDisabled, setIsNotifyDisabled] = useState(false);
+
   const weatherTable = useRef();
 
   useEffect(() => {
@@ -84,6 +87,20 @@ const Dashboard = () => {
   const headerCellStyle = {
     ...cellStyle,
     backgroundColor: "lightgray",
+  };
+
+  const notify = (userid) => {
+    setIsNotifyDisabled(true);
+    axios
+      .get(`http://localhost:8080/notify/${userid}`)
+      .then((res) => {
+        setIsNotifyDisabled(false);
+        toast.success(res.data);
+      })
+      .catch((err) => {
+        setIsNotifyDisabled(false);
+        toast.error(err.name);
+      });
   };
 
   return (
@@ -166,6 +183,7 @@ const Dashboard = () => {
                 <TableCell sx={headerCellStyle}>City</TableCell>
                 <TableCell sx={headerCellStyle}>Country</TableCell>
                 <TableCell sx={headerCellStyle}>Weather</TableCell>
+                <TableCell sx={headerCellStyle}>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -176,6 +194,25 @@ const Dashboard = () => {
                   <TableCell sx={cellStyle}>{data.city}</TableCell>
                   <TableCell sx={cellStyle}>{data.country}</TableCell>
                   <TableCell sx={cellStyle}>{data.weather}</TableCell>
+                  <TableCell
+                    sx={{
+                      border: "1px solid black",
+                      padding: "8px",
+                      display: "flex",
+                      justifyContent: "center"
+                    }}
+                  >
+                    {
+                      <Button
+                        variant="contained"
+                        disabled={isNotifyDisabled}
+                        onClick={() => notify(data.userid)}
+                        color="primary"
+                      >
+                        Notify
+                      </Button>
+                    }
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
